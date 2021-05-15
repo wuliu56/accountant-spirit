@@ -1,10 +1,12 @@
-package com.example.as;
+package com.example.as.service;
 
-import java.sql.Date;
+import com.example.as.entity.Budget;
+import com.example.as.entity.DailyBudget;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class MonthlyBudget extends Budget{
+public class MonthlyBudget extends Budget {
 
     private int day;
     private int month;

@@ -1,4 +1,10 @@
-package com.example.as;
+package com.example.as.entity;
+
+
+import com.example.as.service.BillList;
+import com.example.as.service.MonthlyBudgetList;
+import com.example.as.service.TypeList;
+import com.example.as.service.WalletList;
 
 public class Account {
 

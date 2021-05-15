@@ -1,4 +1,4 @@
-package com.example.as;
+package com.example.as.entity;
 
 public class Budget {
     private double amount;

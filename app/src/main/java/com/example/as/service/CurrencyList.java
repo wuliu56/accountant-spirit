@@ -1,4 +1,6 @@
-package com.example.as;
+package com.example.as.service;
+
+import com.example.as.entity.Currency;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -1,8 +1,8 @@
-package com.example.as;
+package com.example.as.entity;
 
-import java.sql.Date;//年月日
+import com.example.as.entity.Budget;
 
-public class DailyBudget extends Budget{
+public class DailyBudget extends Budget {
 
     private double amount;
     private boolean ifOver;

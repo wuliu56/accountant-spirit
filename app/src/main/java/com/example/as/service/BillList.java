@@ -1,4 +1,7 @@
-package com.example.as;
+package com.example.as.service;
+
+import com.example.as.entity.Bill;
+import com.example.as.entity.Type;
 
 import java.sql.Date;
 import java.util.ArrayList;

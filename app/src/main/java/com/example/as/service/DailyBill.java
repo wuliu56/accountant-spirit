@@ -1,4 +1,9 @@
-package com.example.as;
+package com.example.as.service;
+
+import com.example.as.entity.Bill;
+import com.example.as.entity.Currency;
+import com.example.as.entity.Type;
+import com.example.as.entity.Wallet;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -19,7 +24,7 @@ public class DailyBill {
         this.date = date;
     }
 
-    public void newBill(double amount,Date date,Type type,Wallet wallet,Currency currency){
+    public void newBill(double amount, Date date, Type type, Wallet wallet, Currency currency){
         Bill bill=new Bill();
         bill.setAmount(amount);
         bill.setDate(date);
