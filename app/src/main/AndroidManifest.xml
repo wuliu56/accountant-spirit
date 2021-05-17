@@ -9,8 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AS">
-        <activity android:name=".view.LoginActivity"></activity>
-        <activity android:name=".view.MainActivity">
+
+        <activity android:name=".view.account_management.ChangePasswordActivity"></activity>
+        <activity android:name=".view.account_management.EditAccountInfoActivity"></activity>
+        <activity android:name=".view.account_management.SetWalletActivity"></activity>
+        <activity android:name=".view.account_management.SetCurrencyActivity"></activity>
+        <activity android:name=".view.bill_record.ManageBudgetActivity"></activity>
+        <activity android:name=".view.bill_record.ManageBillActivity"></activity>
+        <activity android:name=".view.query_statistics.QueryActivity"></activity>
+        <activity android:name=".view.query_statistics.StatisticsActivity"></activity>
+        <activity android:name=".view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
