@@ -1,6 +1,7 @@
-package com.example.as.service;
+package com.example.as;
 
 import com.example.as.entity.Bill;
+import com.example.as.entity.DailyBill;
 import com.example.as.entity.Type;
 
 import java.sql.Date;

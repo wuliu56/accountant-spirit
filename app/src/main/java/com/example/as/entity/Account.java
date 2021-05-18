@@ -1,10 +1,8 @@
 package com.example.as.entity;
 
 
-import com.example.as.service.BillList;
-import com.example.as.service.MonthlyBudgetList;
-import com.example.as.service.TypeList;
-import com.example.as.service.WalletList;
+import com.example.as.BillList;
+import com.example.as.MonthlyBudgetList;
 
 public class Account {
 

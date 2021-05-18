@@ -1,4 +1,4 @@
-package com.example.as.service;
+package com.example.as.entity;
 
 import com.example.as.entity.Wallet;
 

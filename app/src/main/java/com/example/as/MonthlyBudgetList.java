@@ -1,6 +1,6 @@
-package com.example.as.service;
+package com.example.as;
 
-import com.example.as.service.MonthlyBudget;
+import com.example.as.entity.MonthlyBudget;
 
 import java.util.ArrayList;
 import java.util.Iterator;

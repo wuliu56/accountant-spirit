@@ -9,22 +9,22 @@ public class AccountManager {
     private Account currentAccount;
     private boolean state;
 
-    boolean logUp(){//注册
+    public boolean logUp(){//注册
         return true;
     }
 
-    boolean logIn(Account account){//登录
+    public boolean logIn(Account account){//登录
         return true;
     }
 
-    boolean logOut(){//登出
+    public boolean logOut(){//登出
         return true;
     }
 
-    boolean changePassword(){
+    public boolean changePassword(){
         return true;
     }
 
-    boolean getState() {return state;}
+    public boolean getState() {return state;}
 }
 
