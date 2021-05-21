@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.as.R;
-import com.example.as.service.AccountManager;
 import com.example.as.view.account_management.ManageAccountFragment;
 import com.example.as.view.bill_record.RecordBillFragment;
 import com.example.as.view.query_statistics.QueryFragment;

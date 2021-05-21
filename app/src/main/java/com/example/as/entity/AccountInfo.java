@@ -1,12 +1,17 @@
 package com.example.as.entity;
 
+import java.sql.Date;
+
 public class AccountInfo {
+
 
     private String name;
     private String sex;
-    private int age;
+    private Date birthday;
     private String position;
     private String icon;
+    private String accountId;
+
 
     public String getName() {
         return name;
@@ -24,12 +29,12 @@ public class AccountInfo {
         this.sex = sex;
     }
 
-    public int getAge() {
-        return age;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getPosition() {
@@ -48,6 +53,14 @@ public class AccountInfo {
         this.icon = icon;
     }
 
-}
+    public String getAccountId() {
+        return accountId;
+    }
 
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+
+}
 

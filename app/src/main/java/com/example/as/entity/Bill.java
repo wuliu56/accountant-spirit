@@ -4,12 +4,22 @@ import java.sql.Date;
 
 public class Bill {
 
+    private String id;
     private double amount;
     private Date date;
     private Type type;
     private Wallet wallet;
-    private Currency currency;
-    private int id;
+
+
+    private String accountId;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public double getAmount() {
         return amount;
@@ -43,16 +53,15 @@ public class Bill {
         this.wallet = wallet;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
-    public int getId() {
-        return id;
-    }
+
+
 
 }

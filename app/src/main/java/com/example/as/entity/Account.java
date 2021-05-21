@@ -1,51 +1,45 @@
 package com.example.as.entity;
 
-
-import com.example.as.BillList;
-import com.example.as.MonthlyBudgetList;
-
 public class Account {
 
-    private String Id;
+
+    private String accountId;
+    private String username;
     private String password;
-    private AccountInfo accountInfo;
     private Currency currency;
-    private WalletList walletList;
-    private BillList billList;
-    private MonthlyBudgetList monthlyBudgetList;
-    private TypeList typeList;
 
-    public AccountInfo getAccountInfo() {
-        return accountInfo;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setAccountInfo(AccountInfo accountInfo) {
-        this.accountInfo = accountInfo;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
-    public Currency getCurrency(){
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency){
-        this.currency=currency;
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
-    public WalletList getWalletList(){
-        return walletList;
-    }
 
-    public BillList getBillList(){
-        return billList;
-    }
-
-    public MonthlyBudgetList getMonthlyBudgetList() {
-        return monthlyBudgetList;
-    }
-
-    public TypeList getTypeList() {
-        return typeList;
-    }
 
 }
-

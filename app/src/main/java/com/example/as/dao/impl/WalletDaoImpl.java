@@ -6,11 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.as.dao.WalletDBOpenHelper;
 import com.example.as.dao.WalletDao;
-import com.example.as.entity.AccountInfo;
 import com.example.as.entity.Wallet;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class WalletDaoImpl implements WalletDao {
     public final WalletDBOpenHelper dbOpenHelper;
@@ -22,7 +20,7 @@ public class WalletDaoImpl implements WalletDao {
     @Override
     public boolean insert(Wallet wallet) {
         ContentValues values=new ContentValues();
-        values.put("accountId",wallet.getAccount().getAccountID());
+        values.put("accountId",wallet.getAccountId());
         values.put("walletId",wallet.getId());
         values.put("name",wallet.getName());
         values.put("amount",wallet.getAmount());
@@ -32,32 +30,29 @@ public class WalletDaoImpl implements WalletDao {
     }
 
     @Override
-    public boolean deleteByWalletId(String id) {
-        dbOpenHelper.getWritableDatabase().execSQL("delete from tb_wallet where walletId=?", new Object[]{id});
+    public boolean deleteByName(String name,String accountId) {
+        dbOpenHelper.getWritableDatabase().execSQL("delete from tb_wallet where name=? and accountId=?"  , new Object[]{name,accountId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
-    public boolean updateName(Wallet wallet, String name) {
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set name=? where walletId=?", new Object[]{name,wallet.getId()});
+    public boolean updateWallet(String name, Wallet wallet) {
+
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set amount=? where mame=? and walletId=?", new Object[]{wallet.getAmount(),name,wallet.getId()});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set name=? where name=? and walletId=?", new Object[]{wallet.getName(),name,wallet.getId()});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
-    @Override
-    public boolean updateAmount(Wallet wallet, double amount) {
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set amount=? where walletId=?", new Object[]{amount,wallet.getId()});
-        dbOpenHelper.getWritableDatabase().close();
-        return true;
-    }
+
 
     @Override
-    public List<Wallet> findByWalletId(String id) {
-        List<Wallet> list = new ArrayList<>();
+    public Wallet findByName(String name) {
+
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from tb_wallet where walletId=?", new String[]{id});
+            Cursor cursor = db.rawQuery("select * from tb_wallet where name=?", new String[]{name});
             if(cursor.moveToNext()==false)return null;
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
@@ -65,21 +60,21 @@ public class WalletDaoImpl implements WalletDao {
                 String nname = cursor.getString(cursor.getColumnIndex("name"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 Wallet wallet=new Wallet();
-                wallet.setAccountID(accountid);
+                wallet.setAccountId(accountid);
                 wallet.setId(iid);
                 wallet.setName(nname);
                 wallet.setAmount(aamount);
-                list.add(wallet);
+                return wallet;
             }
             cursor.close();
             db.close();
         }
-        return list;
+        return null;
     }
 
     @Override
-    public List<Wallet> findByAccountId(String id) {
-        List<Wallet> list = new ArrayList<>();
+    public ArrayList<Wallet> findByAccountId(String id) {
+        ArrayList<Wallet> list = new ArrayList<>();
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_wallet where accountId=?", new String[]{id});
@@ -90,7 +85,7 @@ public class WalletDaoImpl implements WalletDao {
                 String nname = cursor.getString(cursor.getColumnIndex("name"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 Wallet wallet=new Wallet();
-                wallet.setAccountID(accountid);
+                wallet.setAccountId(accountid);
                 wallet.setId(iid);
                 wallet.setName(nname);
                 wallet.setAmount(aamount);

@@ -7,26 +7,31 @@ import java.util.Iterator;
 
 public class CurrencyList {
 
-    private ArrayList<Currency> currencySet = new ArrayList<Currency>();
-    Currency temp = new Currency();
 
-    public Currency queryCurrencyByName(String name) {
-        Iterator<Currency> it = currencySet.iterator();
-        while(it.hasNext()){
-            temp=it.next();
-            if(temp.getName().equals(name)){
-                return temp;
-            }
-        }
-        return null;
+    private ArrayList<Currency> currencyArray = new ArrayList<Currency>();
+    int size;
+
+    public CurrencyList(){
+        currencyArray.add(new Currency("人民币","￥"));
+        currencyArray.add(new Currency("美元","$"));
+        currencyArray.add(new Currency("欧元","€"));
+        currencyArray.add(new Currency("英镑","￡"));
+        currencyArray.add(new Currency("澳元","A$"));
+        currencyArray.add(new Currency("日元","¥"));
+        currencyArray.add(new Currency("加元","C$"));
+        currencyArray.add(new Currency("香港港元","HK$"));
+        currencyArray.add(new Currency("台币","NT$"));
+        currencyArray.add(new Currency("韩元","₩"));
     }
 
-    public Currency queryCurrencyByIndex(int index) {
-        return currencySet.get(index);
+
+
+    public Currency getCurrencyByIndex(int index) {
+        return currencyArray.get(index);
     }
 
     public int getSize() {
-        return currencySet.size();
+        return currencyArray.size();
     }
 
 }

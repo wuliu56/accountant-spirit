@@ -4,28 +4,28 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.as.dao.BudgetDBOpenHelper;
-import com.example.as.dao.BudgetDao;
-import com.example.as.entity.Budget;
-import com.example.as.entity.Wallet;
+import com.example.as.dao.DailyBudgetDBOpenHelper;
+import com.example.as.dao.DailyBudgetDao;
+import com.example.as.entity.DailyBudget;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
 
-public class BudgetDaoImpl implements BudgetDao {
-    public final BudgetDBOpenHelper dbOpenHelper;
+public class DailyBudgetDaoImpl implements DailyBudgetDao {
+    public final DailyBudgetDBOpenHelper dbOpenHelper;
 
-    public BudgetDaoImpl() {
-        dbOpenHelper=new BudgetDBOpenHelper(null,null,null,1);
+    public DailyBudgetDaoImpl() {
+        dbOpenHelper=new DailyBudgetDBOpenHelper(null,null,null,1);
     }
 
     @Override
-    public boolean insert(Budget budget) {
+    public boolean insert(DailyBudget budget) {
         ContentValues values=new ContentValues();
-        values.put("accountId",budget.getAccount().getAccountID());
+        values.put("accountId",budget.getAccountId());
         values.put("budgetId",budget.getId());
         values.put("amount",budget.getAmount());
         values.put("balance",budget.getBalance());
+        values.put("date",budget.getDate().toString());
         dbOpenHelper.getWritableDatabase().insert("tb_budget",null,values);
         dbOpenHelper.getWritableDatabase().close();
         return true;
@@ -39,22 +39,29 @@ public class BudgetDaoImpl implements BudgetDao {
     }
 
     @Override
-    public boolean updateAmount(Budget budget, double amount) {
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set amount=? where budgetId=?", new Object[]{amount,budget.getId()});
+    public boolean updateAmount(String budgetId, double amount) {
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set amount=? where budgetId=?", new Object[]{amount,budgetId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
-    public boolean updateBalance(Budget budget, double balance) {
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set balance=? where budgetId=?", new Object[]{balance,budget.getId()});
+    public boolean updateBalance(String budgetId, double balance) {
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set balance=? where budgetId=?", new Object[]{balance,budgetId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
-    public List<Budget> findByaccountId(String id) {
-        List<Budget> list = new ArrayList<>();
+    public boolean updateDate(String budgetId, Date date) {
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set date=? where budgetId=?", new Object[]{date.toString(),budgetId});
+        dbOpenHelper.getWritableDatabase().close();
+        return true;
+    }
+
+    @Override
+    public ArrayList<DailyBudget> findByAccountId(String id) {
+        ArrayList<DailyBudget> list = new ArrayList<>();
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_budget where accountId=?", new String[]{id});
@@ -64,11 +71,13 @@ public class BudgetDaoImpl implements BudgetDao {
                 String buid = cursor.getString(cursor.getColumnIndex("budgetId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 double bbalance=cursor.getDouble(cursor.getColumnIndex("balance"));
-                Budget budget=new Budget();
-                budget.setAccountID(accountid);
+                String date=cursor.getString(cursor.getColumnIndex("date"));
+                DailyBudget budget=new DailyBudget();
+                budget.setAccountId(accountid);
                 budget.setId(buid);
                 budget.setAmount(aamount);
                 budget.setBalance(bbalance);
+                budget.setDate(Date.valueOf(date));
                 list.add(budget);
             }
             cursor.close();
@@ -78,8 +87,8 @@ public class BudgetDaoImpl implements BudgetDao {
     }
 
     @Override
-    public List<Budget> findBybudgetId(String budgetId) {
-        List<Budget> list = new ArrayList<>();
+    public DailyBudget findByBudgetId(String budgetId) {
+        DailyBudget budget=new DailyBudget();
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_budget where budgetId=?", new String[]{budgetId});
@@ -89,16 +98,16 @@ public class BudgetDaoImpl implements BudgetDao {
                 String buid = cursor.getString(cursor.getColumnIndex("budgetId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 double bbalance=cursor.getDouble(cursor.getColumnIndex("balance"));
-                Budget budget=new Budget();
-                budget.setAccountID(accountid);
+                String date=cursor.getString(cursor.getColumnIndex("date"));
+                budget.setAccountId(accountid);
                 budget.setId(buid);
                 budget.setAmount(aamount);
                 budget.setBalance(bbalance);
-                list.add(budget);
+                budget.setDate(Date.valueOf(date));
             }
             cursor.close();
             db.close();
         }
-        return list;
+        return budget;
     }
 }

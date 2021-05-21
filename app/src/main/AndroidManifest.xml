@@ -3,6 +3,7 @@
     package="com.example.as">
 
     <application
+        android:name=".view.account_management.AsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,21 +11,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AS">
 
-        <activity android:name=".view.account_management.ChangePasswordActivity"></activity>
-        <activity android:name=".view.account_management.EditAccountInfoActivity"></activity>
-        <activity android:name=".view.account_management.SetWalletActivity"></activity>
-        <activity android:name=".view.account_management.SetCurrencyActivity"></activity>
-        <activity android:name=".view.bill_record.ManageBudgetActivity"></activity>
-        <activity android:name=".view.bill_record.ManageBillActivity"></activity>
-        <activity android:name=".view.query_statistics.QueryActivity"></activity>
-        <activity android:name=".view.query_statistics.StatisticsActivity"></activity>
-        <activity android:name=".view.LoginActivity">
+        <activity android:name=".view.account_management.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.account_management.LogupActivity"
+            android:finishOnTaskLaunch="true">
+        </activity>
+        <activity android:name=".view.account_management.EditAccountInfoActivity"></activity>
+        <activity android:name=".view.account_management.ChangePasswordActivity"></activity>
+        <activity android:name=".view.account_management.SetWalletActivity"></activity>
+        <activity android:name=".view.account_management.SetCurrencyActivity"></activity>
+        <activity android:name=".view.account_management.SetTypeActivity"></activity>
+
+        <activity android:name=".view.bill_record.ManageBudgetActivity"></activity>
+        <activity android:name=".view.bill_record.ManageBillActivity"></activity>
+        <activity android:name=".view.query_statistics.QueryActivity"></activity>
+
+        <activity android:name=".view.query_statistics.StatisticsActivity"></activity>
+
     </application>
 
 </manifest>

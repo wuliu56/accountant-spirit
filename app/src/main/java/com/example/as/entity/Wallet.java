@@ -2,14 +2,19 @@ package com.example.as.entity;
 
 public class Wallet {
 
+
+    private String id;
     private String name;
     private double amount;
+    private String accountId;
 
-    public Wallet(){};
 
-    public Wallet(String name,double amount){
-        this.name=name;
-        this.amount=amount;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -27,5 +32,14 @@ public class Wallet {
     public void setAmount(double amount) {
         this.amount=amount;
     }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
 
 }

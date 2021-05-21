@@ -11,7 +11,10 @@ public class MonthlyBudget extends Budget {
     private int day;
     private int month;
     private int year;
-
+    int size;
+    double amount;
+    boolean ifOver;
+    double balance;
     ArrayList<DailyBudget> dailyBudgetArray=new ArrayList<DailyBudget>();
     DailyBudget temp=new DailyBudget();
 
@@ -64,39 +67,41 @@ public class MonthlyBudget extends Budget {
         }
     }//构造函数
 
-    public int getYear() {
-        return year;
+    public DailyBudget getBudgetByIndex(int index){
+        return dailyBudgetArray.get(index);
     }
 
     public int getMonth() {
         return month;
     }
 
-    public DailyBudget getDailyBudget(int day){
-        Iterator<DailyBudget> it=dailyBudgetArray.iterator();
-        while(it.hasNext()){
-            temp=it.next();
-            if(temp.getDay()==day){
-                return temp;
-            }
-        }
-        return null;
+    public int getYear() {
+        return year;
     }
 
-    public double getMonthlyAmount(){
-        return this.getAmount();
+    public int getday(){
+        return day;
     }
 
-    public void setMonthlyAmount(double amount){
-        this.setAmount(amount);
+    public int getSize(){
+        return dailyBudgetArray.size();
     }
 
-    public boolean getMonthlyIfOver(){
-        return this.getIfOver();
+    public double getAmount(){
+        return amount;
     }
 
-    public void setMonthlyIfOver(boolean ifOver){
-        this.setIfOver(ifOver);
+    public boolean getIfOver(){
+        return ifOver;
     }
+
+    public double getBalance(){
+        return balance;
+    }
+
+    public void setDailyBudgetArray(ArrayList<DailyBudget> dailyBudgetArray) {
+        this.dailyBudgetArray = dailyBudgetArray;
+    }
+
 
 }
