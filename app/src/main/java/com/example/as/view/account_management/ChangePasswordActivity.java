@@ -11,7 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.example.as.R;
-import com.example.as.AccountManager;
+import com.example.as.service.AccountManager;
+import com.example.as.view.account_management.AsApplication;
 
 public class ChangePasswordActivity extends Activity {
     AccountManager am = null;
@@ -43,9 +44,14 @@ public class ChangePasswordActivity extends Activity {
                     editText_new_password.setText(null);
                     editText_confirm_password.setText(null);
                 }
-                //更换密码，更新SharedPreference文件
-                else{
-                    am.changePassword(new_password);
+                //新旧密码一样，提示并清空两个新密码编辑框
+                else if(new_password.equals(confirm_password)){
+                    Toast.makeText(ChangePasswordActivity.this,"新旧密码相同",Toast.LENGTH_SHORT).show();
+                    editText_new_password.setText(null);
+                    editText_confirm_password.setText(null);
+                }
+                //旧密码正确，更换密码成功，更新SharedPreference文件
+                else if(am.changePassword(old_password, new_password)){
                     SharedPreferences sp = getSharedPreferences("Id_Password",MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.clear();
@@ -53,6 +59,11 @@ public class ChangePasswordActivity extends Activity {
                     editor.putString("password",new_password);
                     Toast.makeText(ChangePasswordActivity.this, "更换成功", Toast.LENGTH_SHORT).show();
                     finish();
+                }
+                //旧密码不正确,提示并清空旧密码编辑框
+                else{
+                    Toast.makeText(ChangePasswordActivity.this,"旧密码不正确",Toast.LENGTH_SHORT).show();
+                    editText_old_password.setText(null);
                 }
             }
         });

@@ -9,6 +9,7 @@ import com.example.as.dao.WalletDao;
 import com.example.as.entity.Wallet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WalletDaoImpl implements WalletDao {
     public final WalletDBOpenHelper dbOpenHelper;

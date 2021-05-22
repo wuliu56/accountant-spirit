@@ -11,7 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.example.as.R;
-import com.example.as.AccountManager;
+import com.example.as.service.AccountManager;
+import com.example.as.view.MainActivity;
 
 public class LogupActivity extends Activity {
     private AccountManager am = new AccountManager();
@@ -36,7 +37,7 @@ public class LogupActivity extends Activity {
                 String confirm_password = editText_create_confirm.getText().toString();//获取确认的密码
 
                 //未填写完整
-                if(username.equals(null)||password.equals(null)||confirm_password.equals(null))
+                if(username.length() == 0||password.length() == 0||confirm_password.length() == 0)
                 {
                     Toast.makeText(LogupActivity.this,"请填写完整",Toast.LENGTH_SHORT).show();
                 }
@@ -56,8 +57,9 @@ public class LogupActivity extends Activity {
                     }
                     //注册成功，提示
                     else{
-                        Toast.makeText(LogupActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
-                        finish();
+                        Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LogupActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 }
             }
@@ -68,6 +70,7 @@ public class LogupActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LogupActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

@@ -1,5 +1,8 @@
 package com.example.as.service;
 
+import android.app.Activity;
+import android.widget.Toast;
+
 import com.example.as.dao.impl.AccountInfoDaoImpl;
 import com.example.as.dao.impl.TypeDaoImpl;
 import com.example.as.dao.impl.UserDaoImpl;
@@ -12,70 +15,81 @@ import com.example.as.entity.Type;
 import com.example.as.entity.TypeList;
 import com.example.as.entity.Wallet;
 import com.example.as.entity.WalletList;
+import com.example.as.view.account_management.AsApplication;
 
 import java.util.ArrayList;
 
 public class AccountManager {
-    private ArrayList<Account> accountArray=new ArrayList<Account>();
-    private UserDaoImpl userdaoimpl;
-    private Account currentaccount;
     private String accountId;
+    private CurrencyList currencylist = new CurrencyList();
+
+    private UserDaoImpl userdaoimpl = new UserDaoImpl(AsApplication.getContext());
     private AccountInfoDaoImpl accountinfodaoimpl;
     private WalletDaoImpl walletdaoimpl;
     private TypeDaoImpl typedaoimpl;
-    private static int count=0;
-    private CurrencyList currencylist;
 
-    boolean logUp(String username,String password){//注测
-        //首先判断当前id是否已经被注册
-        Account tempaccount=new Account();
-        tempaccount=userdaoimpl.findByUsername(username);
-        if(tempaccount==null){
-            Account newaccount =new Account();
-            newaccount.setUsername(username);
-            newaccount.setPassword(password);
-            count++;
-            newaccount.setAccountId(Integer.toString(count));
-            userdaoimpl.insert(newaccount);
-            return true;
-        }
-        else return false;
+    public AccountManager(){}
+
+    public AccountManager(String accountId){
+        this.accountId = accountId;
     }
 
-    boolean logIn(String username,String password){//登录
-        Account tempaccount=new Account();
-        tempaccount=userdaoimpl.findByUsername(username);
-        if(tempaccount==null){//账号错误
-            System.out.println("账号错误");
-           return false;
-        }
-        else if(tempaccount.getPassword().equals(password)){
-            currentaccount=tempaccount;
-            accountId=tempaccount.getAccountId();
+    public boolean logUp(String username,String password){
+        //注册
+
+        Account tempAccount = userdaoimpl.findByUsername(username);
+
+        //首先判断当前用户名是否已经被注册
+        if(tempAccount==null){
+            //用户名还未注册,写入sqlite
+            Account newAccount = new Account();
+            newAccount.setUsername(username);
+            newAccount.setPassword(password);
+            newAccount.setCurrency(currencylist.getCurrencyByName("人民币"));
+            newAccount.setAccountId(String.valueOf(userdaoimpl.getSize()));
+            userdaoimpl.insert(newAccount);
             return true;
-        }else{
-            System.out.println("密码错误");
+        } else //用户名已被注册
             return false;
+    }
+
+    public int logIn(String username,String password){
+        //登录
+        Account tempAccount = userdaoimpl.findByUsername(username);
+
+        if(tempAccount == null){
+            //用户名错误
+            Toast.makeText(AsApplication.getContext(),"用户名错误",Toast.LENGTH_SHORT).show();
+           return 1;
+        } else if(password.equals(tempAccount.getPassword())){
+            //用户名和密码正确,在AsApplication中设置全局变量accountId
+            accountId = tempAccount.getAccountId();
+            AsApplication.setAccountId(accountId);
+            return 2;
+        } else{
+            //用户名存在，密码错误
+            Toast.makeText(AsApplication.getContext(),tempAccount.getAccountId(),Toast.LENGTH_SHORT).show();
+            return 3;
         }
     }
 
-    boolean logOut(){//登出  ???
-        accountId=null;
+    public boolean logOut(){
+        //登出
+        accountId = null;
+        Activity activity = new Activity();
+        AsApplication asApplication = (AsApplication) activity.getApplication();
+        asApplication.setAccountId(accountId);
         return true;
     }
 
-    boolean changePassword(String username,String oldpassword,String newpassword){
-        Account tempaccount=new Account();
-        tempaccount=userdaoimpl.findByUsername(username);
-        if(tempaccount==null){//账号错误
-            System.out.println("账号错误");
-            return false;
-        }
-        else if(tempaccount.getPassword().equals(oldpassword)){
-            userdaoimpl.updatePwd(username,newpassword);
+    public boolean changePassword(String oldPassword,String newPassword){
+        Account tempAccount = userdaoimpl.findByAccountId(accountId);
+        if(tempAccount.getPassword().equals(oldPassword)){
+            //密码正确
+            userdaoimpl.updatePwd(tempAccount.getUsername(),newPassword);
             return true;
         }else{
-            System.out.println("密码错误");
+            //密码错误
             return false;
         }
     }
@@ -91,11 +105,11 @@ public class AccountManager {
     }
 
     public Currency getCurrenctCurrency() {
-        return currentaccount.getCurrency();
+        return userdaoimpl.findByAccountId(accountId).getCurrency();
     }
 
     public void setCurrentCurrency(Currency currency) {
-        currentaccount.setCurrency(currency);
+        userdaoimpl.updateCurrency(accountId,currency.getName());
     }
 
     public CurrencyList getCurrencyList(){//所有用户的货币类型列表还是单纯的货币类型列表

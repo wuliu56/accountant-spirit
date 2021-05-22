@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class DailyBudgetDBOpenHelper extends SQLiteOpenHelper {
-    final String CREATE_TABLE_BUDGET="create table tb_budget (accountId,budgetId,amount,balance,date,primary key (budgetId))";
+    final String CREATE_TABLE_BUDGET="create table tb_budget (accountId,budgetId,amount,balance,year,month,day,primary key (budgetId))";
     public DailyBudgetDBOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, null, 1);
     }

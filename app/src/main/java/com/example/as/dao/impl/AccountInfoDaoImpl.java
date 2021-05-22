@@ -9,6 +9,7 @@ import com.example.as.dao.AccountInfoDao;
 import com.example.as.entity.AccountInfo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class AccountInfoDaoImpl implements AccountInfoDao {
     public final AccountInfoDBOpenHelper dbOpenHelper;
@@ -17,7 +18,7 @@ public class AccountInfoDaoImpl implements AccountInfoDao {
         dbOpenHelper=new AccountInfoDBOpenHelper(null,null,null,1);
     }
     @Override
-    public boolean insertAccountInfo(AccountInfo accountInfo) {
+    public boolean insert(AccountInfo accountInfo) {
         ContentValues values=new ContentValues();
         values.put("accountId",accountInfo.getAccountId());
         values.put("name",accountInfo.getName());

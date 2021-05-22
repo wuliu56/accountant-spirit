@@ -9,7 +9,7 @@ import android.widget.RadioGroup;
 import androidx.annotation.Nullable;
 
 import com.example.as.R;
-import com.example.as.AccountManager;
+import com.example.as.service.AccountManager;
 
 public class EditAccountInfoActivity extends Activity {
     private AccountManager am = null;

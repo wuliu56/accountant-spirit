@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.as.dao.DailyBudgetDBOpenHelper;
 import com.example.as.dao.DailyBudgetDao;
+import com.example.as.entity.Budget;
 import com.example.as.entity.DailyBudget;
 
 import java.sql.Date;
@@ -25,15 +26,17 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
         values.put("budgetId",budget.getId());
         values.put("amount",budget.getAmount());
         values.put("balance",budget.getBalance());
-        values.put("date",budget.getDate().toString());
+        values.put("year",budget.getYear());
+        values.put("month",budget.getMonth());
+        values.put("day",budget.getDay());
         dbOpenHelper.getWritableDatabase().insert("tb_budget",null,values);
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
-    public boolean deleteByBudgetId(String budgetId) {
-        dbOpenHelper.getWritableDatabase().execSQL("delete from tb_budget where budgetId=?", new Object[]{budgetId});
+    public boolean deleteByDate(int year,int month,int day,String accountId) {
+        dbOpenHelper.getWritableDatabase().execSQL("delete from tb_budget where year=? and month=? and day=? and accountId=?", new Object[]{year,month,day,accountId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
@@ -53,8 +56,10 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
     }
 
     @Override
-    public boolean updateDate(String budgetId, Date date) {
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set date=? where budgetId=?", new Object[]{date.toString(),budgetId});
+    public boolean updateDay(String budgetId,int year,int month,int day) {
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set year=?  where budgetId=?", new Object[]{year,budgetId});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set month=?  where budgetId=?", new Object[]{month,budgetId});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set day=?  where budgetId=?", new Object[]{day,budgetId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
@@ -71,13 +76,17 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
                 String buid = cursor.getString(cursor.getColumnIndex("budgetId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 double bbalance=cursor.getDouble(cursor.getColumnIndex("balance"));
-                String date=cursor.getString(cursor.getColumnIndex("date"));
+                int yyear=cursor.getInt(cursor.getColumnIndex("year"));
+                int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
+                int dday=cursor.getInt(cursor.getColumnIndex("day"));
                 DailyBudget budget=new DailyBudget();
                 budget.setAccountId(accountid);
                 budget.setId(buid);
                 budget.setAmount(aamount);
                 budget.setBalance(bbalance);
-                budget.setDate(Date.valueOf(date));
+                budget.setYear(yyear);
+                budget.setMonth(mmonth);
+                budget.setDay(dday);
                 list.add(budget);
             }
             cursor.close();
@@ -87,27 +96,62 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
     }
 
     @Override
-    public DailyBudget findByBudgetId(String budgetId) {
+    public DailyBudget findByDay(int year,int month,int day,String accountId) {
         DailyBudget budget=new DailyBudget();
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from tb_budget where budgetId=?", new String[]{budgetId});
+            Cursor cursor = db.rawQuery("select * from tb_budget where year=? and month=? and day=? and accountId=?",new String[]{String.valueOf(year),String.valueOf(month),String.valueOf(day),accountId});
             if(cursor.moveToNext()==false)return null;
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String buid = cursor.getString(cursor.getColumnIndex("budgetId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 double bbalance=cursor.getDouble(cursor.getColumnIndex("balance"));
-                String date=cursor.getString(cursor.getColumnIndex("date"));
+                int yyear=cursor.getInt(cursor.getColumnIndex("year"));
+                int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
+                int dday=cursor.getInt(cursor.getColumnIndex("day"));
                 budget.setAccountId(accountid);
                 budget.setId(buid);
                 budget.setAmount(aamount);
                 budget.setBalance(bbalance);
-                budget.setDate(Date.valueOf(date));
+                budget.setYear(yyear);
+                budget.setMonth(mmonth);
+                budget.setDay(dday);
             }
             cursor.close();
             db.close();
         }
         return budget;
+    }
+
+    @Override
+    public ArrayList<DailyBudget> findByMonth(int year,int month,String accountId) {
+        DailyBudget budget=new DailyBudget();
+        ArrayList<DailyBudget> dailybudgetarray=new ArrayList<DailyBudget>();
+        SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from tb_budget where year=? and month=? and accountId=?",new String[]{String.valueOf(year),String.valueOf(month),accountId});
+            if(cursor.moveToNext()==false)return null;
+            while (cursor.moveToNext()) {
+                String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
+                String buid = cursor.getString(cursor.getColumnIndex("budgetId"));
+                double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
+                double bbalance=cursor.getDouble(cursor.getColumnIndex("balance"));
+                int yyear=cursor.getInt(cursor.getColumnIndex("year"));
+                int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
+                int dday=cursor.getInt(cursor.getColumnIndex("day"));
+                budget.setAccountId(accountid);
+                budget.setId(buid);
+                budget.setAmount(aamount);
+                budget.setBalance(bbalance);
+                budget.setYear(yyear);
+                budget.setMonth(mmonth);
+                budget.setDay(dday);
+                dailybudgetarray.add(budget);
+            }
+            cursor.close();
+            db.close();
+        }
+        return dailybudgetarray;
     }
 }

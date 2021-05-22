@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 
 
 import com.example.as.R;
-import com.example.as.AccountManager;
+import com.example.as.service.AccountManager;
 
 public class ManageAccountFragment extends Fragment {
     private AccountManager am = null;

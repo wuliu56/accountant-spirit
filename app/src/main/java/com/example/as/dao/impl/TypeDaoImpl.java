@@ -7,8 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.as.dao.TypeDBOpenHelper;
 import com.example.as.dao.TypeDao;
 import com.example.as.entity.Type;
+import com.example.as.entity.Wallet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TypeDaoImpl implements TypeDao {
     public final TypeDBOpenHelper dbOpenHelper;

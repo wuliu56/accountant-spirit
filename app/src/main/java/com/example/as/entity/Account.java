@@ -8,6 +8,15 @@ public class Account {
     private String password;
     private Currency currency;
 
+    public Account(){}
+
+    public Account(String accountId, String username, String password, Currency currency){
+        this.accountId = accountId;
+        this.username = username;
+        this.password = password;
+        this.currency = currency;
+    }
+
     public String getAccountId() {
         return accountId;
     }

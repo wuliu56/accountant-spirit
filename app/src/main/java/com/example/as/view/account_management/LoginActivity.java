@@ -11,7 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.as.R;
-import com.example.as.AccountManager;
+import com.example.as.entity.Account;
+import com.example.as.service.AccountManager;
 import com.example.as.view.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -45,25 +46,33 @@ public class LoginActivity extends AppCompatActivity {
                     String in_username = editText_username.getText().toString();//获取填入的用户名
                     String in_password = editText_password.getText().toString();//获取填入的密码
                     //未填写完整
-                    if(in_password.equals(null)||in_username.equals(null)){
+                    if(in_password.length() == 0||in_username.length() == 0){
                         Toast.makeText(LoginActivity.this,"请填写完整",Toast.LENGTH_SHORT).show();
                     }
                     //登录成功时更新SharedPreferences中最近登录账户的信息，并转入主界面
-                    else if(am.logIn(in_username,in_password)){
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.clear();
-                        editor.putString("username",in_username);
-                        editor.putString("password",in_password);
-                        editor.commit();
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
+                    else switch(am.logIn(in_username,in_password)){
+                        case 1:{
+                            Toast.makeText(getApplicationContext(), "用户名错误", Toast.LENGTH_SHORT).show();
+                        }
+                        case 2: {
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.clear();
+                            editor.putString("username", in_username);
+                            editor.putString("password", in_password);
+                            editor.commit();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            Toast.makeText(getApplicationContext(), "登陆成功", Toast.LENGTH_SHORT).show();
+                            startActivity(intent);
+                        }
+                        case 3:{
+                            Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     //登录失败时提示，清空密码编辑框
-                    else{
+                  /*  else{
                         Toast.makeText(LoginActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
                         editText_password.setText(null);
-                    }
+                    }*/
                 }
             });
         }
@@ -73,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, LogupActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

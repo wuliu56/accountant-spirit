@@ -2,7 +2,9 @@ package com.example.as.dao;
 
 import com.example.as.entity.Wallet;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface WalletDao {
     public boolean insert(Wallet wallet);

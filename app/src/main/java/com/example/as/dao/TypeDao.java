@@ -3,6 +3,7 @@ package com.example.as.dao;
 import com.example.as.entity.Type;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TypeDao {
     public boolean insert(Type type);
