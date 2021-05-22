@@ -66,27 +66,17 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Account findByUsername(String username) {
 
-        Account account = new Account();
+        Account account = null;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_user where username=?", new String[]{username});
-            System.out.println("进入db");
-            //if(cursor.moveToNext()==false) return null;
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String name = cursor.getString(cursor.getColumnIndex("username"));
                 String ppwd=cursor.getString(cursor.getColumnIndex("pwd"));
                 String currency=cursor.getString(cursor.getColumnIndex("currency"));
-                System.out.println("进入while");
-                System.out.println(accountid);
-                System.out.println(name);
-                System.out.println(ppwd);
-                System.out.println(currency);
 
-                account.setAccountId(accountid);
-                account.setUsername(name);
-                account.setPassword(ppwd);
-                account.setCurrency(new CurrencyList().getCurrencyByName(currency));
+                account = new Account(accountid,name,ppwd,new CurrencyList().getCurrencyByName(currency));
             }
             cursor.close();
             db.close();
@@ -96,7 +86,7 @@ public class UserDaoImpl implements UserDao {
 
     public Account findByAccountId(String accountId) {
 
-
+        Account account = null;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_user where accountId=?", new String[]{accountId});
@@ -106,25 +96,21 @@ public class UserDaoImpl implements UserDao {
                 String name = cursor.getString(cursor.getColumnIndex("username"));
                 String ppwd=cursor.getString(cursor.getColumnIndex("pwd"));
                 String currency=cursor.getString(cursor.getColumnIndex("currency"));
-                Account account = new Account();
-                account.setAccountId(accountid);
-                account.setUsername(name);
-                account.setPassword(ppwd);
-                account.getCurrency().setName(currency);
-                return account;
+                account = new Account(accountid,name,ppwd,new CurrencyList().getCurrencyByName(currency));
             }
             cursor.close();
             db.close();
         }
-        return null;
+        return account;
     }
 
     public int getSize(){
         int count=0;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
+            System.out.println("open");
             Cursor cursor = db.rawQuery("select * from tb_user",null);
-            if(cursor.moveToNext()==false)return 0;
+            //if(cursor.moveToNext()==false)return 0;
             while (cursor.moveToNext()) {
                count++;
             }

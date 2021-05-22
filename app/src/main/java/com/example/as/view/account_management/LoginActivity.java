@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                     else switch(am.logIn(in_username,in_password)){
                         case 1:{
                             Toast.makeText(getApplicationContext(), "用户名错误", Toast.LENGTH_SHORT).show();
+                            break;
                         }
                         case 2: {
                             SharedPreferences.Editor editor = sp.edit();
@@ -63,9 +64,11 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             Toast.makeText(getApplicationContext(), "登陆成功", Toast.LENGTH_SHORT).show();
                             startActivity(intent);
+                            break;
                         }
                         case 3:{
                             Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_SHORT).show();
+                            break;
                         }
                     }
                     //登录失败时提示，清空密码编辑框

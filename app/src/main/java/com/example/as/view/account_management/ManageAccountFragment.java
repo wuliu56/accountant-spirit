@@ -1,6 +1,8 @@
 package com.example.as.view.account_management;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,10 @@ public class ManageAccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 am.logOut();
+                SharedPreferences sp = getActivity().getSharedPreferences("Id_Password", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+               editor.clear();
+               editor.commit();
                 getActivity().finish();
             }
         });

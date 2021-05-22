@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.as.dao.BillDBOpenHelper;
 import com.example.as.dao.BillDao;
 import com.example.as.entity.Bill;
+import com.example.as.entity.Wallet;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class BillDaoImpl implements BillDao {
                 Bill bill = new Bill();
                 bill.setAccountId(accountid);
                 bill.setId(bid);
-                bill.getWallet().setId(wid);
+                bill.setWallet(new Wallet());
                 bill.getType().setId(tid);
                 bill.setAmount(aamount);
                 bill.setDate(Date.valueOf(ddate));

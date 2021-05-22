@@ -40,7 +40,7 @@ public class AccountManager {
         Account tempAccount = userdaoimpl.findByUsername(username);
 
         //首先判断当前用户名是否已经被注册
-        if(tempAccount==null){
+        if(tempAccount == null){
             //用户名还未注册,写入sqlite
             Account newAccount = new Account();
             newAccount.setUsername(username);
@@ -59,7 +59,6 @@ public class AccountManager {
 
         if(tempAccount == null){
             //用户名错误
-            Toast.makeText(AsApplication.getContext(),"用户名错误",Toast.LENGTH_SHORT).show();
            return 1;
         } else if(password.equals(tempAccount.getPassword())){
             //用户名和密码正确,在AsApplication中设置全局变量accountId
@@ -68,7 +67,6 @@ public class AccountManager {
             return 2;
         } else{
             //用户名存在，密码错误
-            Toast.makeText(AsApplication.getContext(),tempAccount.getAccountId(),Toast.LENGTH_SHORT).show();
             return 3;
         }
     }
