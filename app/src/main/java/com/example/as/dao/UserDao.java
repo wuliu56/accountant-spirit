@@ -12,5 +12,6 @@ public interface UserDao {
     public boolean updateUsername(String accountId,String username);
     public boolean updateCurrency(String accountId,String currency);
     public Account findByUsername(String username);
+    public Account findByAccountId(String accountId);
     public int getSize();
 }

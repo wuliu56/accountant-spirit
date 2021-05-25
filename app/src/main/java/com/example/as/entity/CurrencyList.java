@@ -13,9 +13,9 @@ public class CurrencyList {
 
 
     private ArrayList<Currency> currencyArrayList = new ArrayList<Currency>();
-    private Currency cursor;
-    int size;
+    private Currency cursor = null;
 
+    //默认构造方法
     public CurrencyList() {
         currencyArrayList.add(new Currency("人民币", "￥"));
         currencyArrayList.add(new Currency("香港港元", "HK$"));

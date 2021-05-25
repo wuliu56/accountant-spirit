@@ -56,15 +56,32 @@ public class TypeDaoImpl implements TypeDao {
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
-                String iid = cursor.getString(cursor.getColumnIndex("typeId"));
+                int iid = cursor.getInt(cursor.getColumnIndex("typeId"));
                 String nname = cursor.getString(cursor.getColumnIndex("name"));
                 String ccategory=cursor.getString(cursor.getColumnIndex("category"));
 
-                type.setAccountId(accountid);
-                type.setId(iid);
-                type.setName(nname);
-                type.setCategory(ccategory);
+                type = new Type(iid, nname, ccategory, accountid);
+            }
+            cursor.close();
+            db.close();
+        }
+        return type;
+    }
 
+    @Override
+    public Type findByTypeId(Integer typeId,String accountId){
+        Type type=null;
+        SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from tb_type where typeId=? and accountId=?", new String[]{String.valueOf(typeId),accountId});
+
+            while (cursor.moveToNext()) {
+                String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
+                int iid = cursor.getInt(cursor.getColumnIndex("typeId"));
+                String nname = cursor.getString(cursor.getColumnIndex("name"));
+                String ccategory=cursor.getString(cursor.getColumnIndex("category"));
+
+                type = new Type(iid, nname, ccategory, accountid);
             }
             cursor.close();
             db.close();
@@ -81,14 +98,11 @@ public class TypeDaoImpl implements TypeDao {
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
-                String iid = cursor.getString(cursor.getColumnIndex("typeId"));
+                int iid = cursor.getInt(cursor.getColumnIndex("typeId"));
                 String nname = cursor.getString(cursor.getColumnIndex("name"));
                 String ccategory = cursor.getString(cursor.getColumnIndex("category"));
-                Type type = new Type();
-                type.setAccountId(accountid);
-                type.setId(iid);
-                type.setName(nname);
-                type.setCategory(ccategory);
+
+                Type type = new Type(iid, nname, ccategory, accountid);
                 list.add(type);
             }
             cursor.close();
@@ -106,14 +120,11 @@ public class TypeDaoImpl implements TypeDao {
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
-                String iid = cursor.getString(cursor.getColumnIndex("typeId"));
+                int iid = cursor.getInt(cursor.getColumnIndex("typeId"));
                 String nname = cursor.getString(cursor.getColumnIndex("name"));
                 String ccategory = cursor.getString(cursor.getColumnIndex("category"));
-                Type type = new Type();
-                type.setAccountId(accountid);
-                type.setId(iid);
-                type.setName(nname);
-                type.setCategory(ccategory);
+
+                Type type = new Type(iid, nname, ccategory, accountid);
                 list.add(type);
             }
             cursor.close();

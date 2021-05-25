@@ -1,8 +1,8 @@
 package com.example.as.service;
 
 import android.app.Activity;
-import android.content.Intent;
 
+import com.example.as.dao.WalletDao;
 import com.example.as.dao.impl.AccountInfoDaoImpl;
 import com.example.as.dao.impl.TypeDaoImpl;
 import com.example.as.dao.impl.UserDaoImpl;
@@ -26,14 +26,13 @@ public class AccountManager {
     private UserDaoImpl userdaoimpl = new UserDaoImpl(AsApplication.getContext());
     private AccountInfoDaoImpl accountinfodaoimpl = new AccountInfoDaoImpl(AsApplication.getContext());
     private WalletDaoImpl walletdaoimpl = new WalletDaoImpl(AsApplication.getContext());
-    private TypeDaoImpl typedaoimpl;
+    private TypeDaoImpl typedaoimpl = new TypeDaoImpl(AsApplication.getContext());
 
     public AccountManager(){}
 
     public AccountManager(String accountId){
         this.accountId = accountId;
-        walletList = new WalletList();
-        walletList.setWalletArray(walletdaoimpl.findByAccountId(accountId));
+        walletList = new WalletList(walletdaoimpl.findByAccountId(accountId));
     }
 
     public boolean logUp(String username,String password){
@@ -52,10 +51,10 @@ public class AccountManager {
             userdaoimpl.insert(newAccount);
 
             //插入wallet记录，默认为现金，资产额0；支付宝，资产额0；微信，资产额0；银行卡，资产额0
-            walletdaoimpl.insert(new Wallet(String.valueOf(walletdaoimpl.getSize()), "现金", 0.0, accountId));
-            walletdaoimpl.insert(new Wallet(String.valueOf(walletdaoimpl.getSize()), "支付宝", 0.0, accountId));
-            walletdaoimpl.insert(new Wallet(String.valueOf(walletdaoimpl.getSize()), "微信", 0.0, accountId));
-            walletdaoimpl.insert(new Wallet(String.valueOf(walletdaoimpl.getSize()), "银行卡", 0.0, accountId));
+            walletdaoimpl.insert(new Wallet(null, "现金", 0.0, accountId));
+            walletdaoimpl.insert(new Wallet(null, "支付宝", 0.0, accountId));
+            walletdaoimpl.insert(new Wallet(null, "微信", 0.0, accountId));
+            walletdaoimpl.insert(new Wallet(null, "银行卡", 0.0, accountId));
 
             return true;
         } else //用户名已被注册
@@ -140,10 +139,11 @@ public class AccountManager {
     }
 
     public Wallet queryWalletByName(String name){
-        return walletdaoimpl.findByName(name);
+        return walletdaoimpl.findByName(name, accountId);
     }
 
     public WalletList getWalletList(){
+
         return walletList;
     }
 
@@ -162,10 +162,9 @@ public class AccountManager {
     public Type queryTypeByName(String name){
         return typedaoimpl.findByName(name,accountId);
     }
-
-    public TypeList getTypeList(){
+    /*public TypeList getTypeList(){
         TypeList typelist=new TypeList();
         typelist.setTypeArray(typedaoimpl.findAll(accountId));
         return typelist;
-    }
+    }*/
 }

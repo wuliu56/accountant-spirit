@@ -7,17 +7,18 @@ import java.util.Iterator;
 
 public class TypeList {
 
+    private ArrayList<Type> typeArray = new ArrayList<Type>();
+    private Type cursor = null;
 
-    private ArrayList<Type> typeArray=new ArrayList<Type>();
-    private int size;
-
-
-    public void setTypeArray(ArrayList<Type> typeArray) {
+    public TypeList(ArrayList<Type> typeArray){
         this.typeArray = typeArray;
     }
 
     public Type getTypeByIndex(int index){
-        return typeArray.get(index);
+        cursor = null;
+        if(index >= 0&&index < getSize())
+            cursor = typeArray.get(index);
+        return cursor;
     }
 
     public int getSize(){

@@ -4,20 +4,43 @@ import java.sql.Date;
 
 public class Bill {
 
-    private String id;
+    private Integer id;
     private double amount;
     private Date date;
     private Type type;
     private Wallet wallet;
-
-
     private String accountId;
 
-    public String getId() {
+    //默认构造方法
+    public Bill(){
+        this.id = null;
+    }
+
+    //用于向数据库插入时构造
+    public Bill(double amount, Date date, Type type, Wallet wallet, String accountId){
+        this.id = null;
+        this.amount = amount;
+        this.date = date;
+        this.type = type;
+        this.wallet = wallet;
+        this.accountId = accountId;
+    }
+
+    //用于从数据库查询时构造
+    public Bill(Integer id, double amount, Date date, Type type, Wallet wallet, String accountId){
+        this.id = id;
+        this.amount = amount;
+        this.date = date;
+        this.type = type;
+        this.wallet = wallet;
+        this.accountId = accountId;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -60,8 +83,5 @@ public class Bill {
     public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
-
-
-
 
 }

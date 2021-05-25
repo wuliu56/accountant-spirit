@@ -1,104 +1,53 @@
 package com.example.as.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class DailyBudget extends Budget {
 
-
-    private String id;
-    private double amount;
-    private boolean ifOver;
-    private double balance;
-    private int year,month,day;
-    private String accountId;
-    //private int day;
-    public static int billcount=0;
-
+    //默认构造方法
     public DailyBudget(){
-        billcount++;
-        id=Integer.toString(billcount);
+        super();
     }
 
-    @Override
-    public String getId() {
-        return id;
+    //用于向数据库插入时构造
+    public DailyBudget(double amount, Date date, double balance, String acccountId){
+        super(amount, date, balance, acccountId);
     }
 
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public double getAmount() {
-        return amount;
-    }
-
-    @Override
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    @Override
-    public boolean getIfOver() {
-        return ifOver;
-    }
-
-    @Override
-    public void setIfOver(boolean ifOver) {
-        this.ifOver = ifOver;
-    }
-
-    @Override
-    public double getBalance() {
-        return balance;
-    }
-
-    @Override
-    public void setBalance(double balance) {
-        this.balance = balance;
+    //用于从数据库查询时构造
+    public DailyBudget(Integer id, double amount, Date date, double balance, String acccountId){
+        super(id, amount, date, balance, acccountId);
     }
 
     public int getYear() {
-        return year;
+        return getDate().getYear();
     }
 
     public void setYear(int year) {
-        this.year = year;
+        Date date = getDate();
+        date.setYear(year);
+        setDate(date);
     }
 
+    //实际的月份
     public int getMonth() {
-        return month;
+        return getDate().getMonth() + 1;
     }
 
+    //参数是实际的月份
     public void setMonth(int month) {
-        this.month = month;
+        Date date = getDate();
+        date.setMonth(month - 1);
+        setDate(date);
     }
 
     public int getDay() {
-        return day;
+        return getDate().getDay();
     }
 
     public void setDay(int day) {
-        this.day = day;
-    }
-
-    @Override
-    public String getAccountId() {
-        return accountId;
-    }
-
-    @Override
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
-
-    public Date getDate(){
-        Date date = new Date();
-        date.setYear(year);
-        date.setMonth(month-1);
+        Date date = getDate();
         date.setDate(day);
-        return date;
+        setDate(date);
     }
-
 }

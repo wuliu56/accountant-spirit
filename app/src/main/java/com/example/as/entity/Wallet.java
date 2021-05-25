@@ -3,25 +3,37 @@ package com.example.as.entity;
 public class Wallet {
 
 
-    private String id;
+    private Integer id;
     private String name;
     private double amount;
     private String accountId;
 
-    public Wallet(){}
+    //默认构造方法
+    public Wallet(){
+        this.id = null;
+    }
 
-    public Wallet(String id, String name, double amount, String accountId){
+    //用于向数据库插入时构造
+    public Wallet (String name, double amount, String accountId){
+        this.id = null;
+        this.name = name;
+        this.amount = amount;
+        this.accountId = accountId;
+    }
+
+    //用于向数据库查询时构造
+    public Wallet (Integer id, String name, double amount, String accountId){
         this.id = id;
         this.name = name;
         this.amount = amount;
         this.accountId = accountId;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -38,7 +50,7 @@ public class Wallet {
     }
 
     public void setAmount(double amount) {
-        this.amount=amount;
+        this.amount = amount;
     }
 
     public String getAccountId() {
@@ -48,6 +60,5 @@ public class Wallet {
     public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
-
 
 }

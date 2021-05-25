@@ -40,8 +40,8 @@ public class BillRecorder {
     }
 
     public void setMonthlyBudget(int year,int month,double amount){
-        MonthlyBudget monthlybudget=new MonthlyBudget(year,month,amount);
-        int day=monthlybudget.getday();
+        MonthlyBudget monthlybudget=new MonthlyBudget(dailybudgetdaoimpl.findByMonth(year,month,accountId));
+        int day=monthlybudget.getSize();
         double dailyamount=amount/day;
         for(int i=1;i<=day;i++){
             DailyBudget tempdailybudget=new DailyBudget();
@@ -63,8 +63,7 @@ public class BillRecorder {
 
     public MonthlyBudget queryMonthlyBudget(int year, int month){
         ArrayList<DailyBudget> dailybudgetarray=dailybudgetdaoimpl.findByMonth(year,month,accountId);
-        MonthlyBudget monthlybudget=new MonthlyBudget();
-        monthlybudget.setDailyBudgetArray(dailybudgetarray);
+        MonthlyBudget monthlybudget=new MonthlyBudget(dailybudgetarray);
         return monthlybudget;
     }
 
@@ -73,7 +72,7 @@ public class BillRecorder {
         billdaoimpl.insert(bill);
     }
 
-    public void deleteBill(String id){
+    public void deleteBill(Integer id){
         billdaoimpl.deleteByBillId(id);
     }
 

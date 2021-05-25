@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class AccountInfoDBOpenHelper extends SQLiteOpenHelper {
-    final String CREATE_TABLE_ACCOUNT="create table tb_accountinfo (accountId,name,sex,birthday,icon,primary key (accountId))";
+    final String CREATE_TABLE_ACCOUNT="create table tb_accountinfo (accountId,name,sex,birthday,position,icon,primary key (accountId))";
     public AccountInfoDBOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, null, 1);
     }

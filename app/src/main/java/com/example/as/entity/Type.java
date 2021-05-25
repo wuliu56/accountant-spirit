@@ -2,17 +2,38 @@ package com.example.as.entity;
 
 public class Type {
 
-    private String id;
+    private Integer id;
     private String name;//具体种类的名称
     private String category;//大分类
     private String accountId;
 
+    //默认构造方法
+    public Type(){
+        this.id = null;
+    }
 
-    public String getId() {
+    //用于插入时构造
+    public Type(String name, String category, String accountId){
+        this.id = null;
+        this.name = name;
+        this.category = category;
+        this.accountId = accountId;
+    }
+
+    //用于查询时构造
+    public Type(Integer id, String name, String category, String accountId){
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.accountId = accountId;
+    }
+
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -39,6 +60,4 @@ public class Type {
     public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
-
-
 }

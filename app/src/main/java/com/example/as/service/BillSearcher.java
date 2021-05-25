@@ -33,7 +33,7 @@ public class BillSearcher {
 
 
     public ArrayList<Bill> queryBillsByType(Type type){
-        String typeId=type.getId();
+        Integer typeId=type.getId();
         Bill tempbill=new Bill();
         ArrayList<Bill> temparray =billdaoimpl.findByType(typeId);
         ArrayList<Bill> target=new ArrayList<Bill>();

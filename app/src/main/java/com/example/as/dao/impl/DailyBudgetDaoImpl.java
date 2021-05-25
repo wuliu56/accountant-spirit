@@ -12,6 +12,7 @@ import com.example.as.entity.DailyBudget;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DailyBudgetDaoImpl implements DailyBudgetDao {
     public final DailyBudgetDBOpenHelper dbOpenHelper;
@@ -43,26 +44,51 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
     }
 
     @Override
-    public boolean updateAmount(String budgetId, double amount) {
+    public boolean updateAmount(int budgetId, double amount) {
         dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set amount=? where budgetId=?", new Object[]{amount,budgetId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
-    public boolean updateBalance(String budgetId, double balance) {
+    public boolean updateBalance(int budgetId, double balance) {
         dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set balance=? where budgetId=?", new Object[]{balance,budgetId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
-    public boolean updateDay(String budgetId,int year,int month,int day) {
+    public boolean updateDay(int budgetId,int year,int month,int day) {
         dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set year=?  where budgetId=?", new Object[]{year,budgetId});
         dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set month=?  where budgetId=?", new Object[]{month,budgetId});
         dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set day=?  where budgetId=?", new Object[]{day,budgetId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
+    }
+
+    @Override
+    public DailyBudget findByBudgetId(Integer budgetId, String accountId) {
+        DailyBudget budget=null;
+        SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from tb_budget where budgetId=? and accountId=?",new String[]{String.valueOf(budgetId),accountId});
+
+            while (cursor.moveToNext()) {
+                String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
+                int buid = cursor.getInt(cursor.getColumnIndex("budgetId"));
+                double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
+                double bbalance=cursor.getDouble(cursor.getColumnIndex("balance"));
+                int yyear=cursor.getInt(cursor.getColumnIndex("year"));
+                int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
+                int dday=cursor.getInt(cursor.getColumnIndex("day"));
+
+                Date date = new Date(yyear, mmonth-1, dday);
+                budget = new DailyBudget(buid, aamount, date, bbalance, accountid);
+            }
+            cursor.close();
+            db.close();
+        }
+        return budget;
     }
 
     @Override
@@ -74,20 +100,16 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
-                String buid = cursor.getString(cursor.getColumnIndex("budgetId"));
+                int buid = cursor.getInt(cursor.getColumnIndex("budgetId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 double bbalance=cursor.getDouble(cursor.getColumnIndex("balance"));
                 int yyear=cursor.getInt(cursor.getColumnIndex("year"));
                 int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
                 int dday=cursor.getInt(cursor.getColumnIndex("day"));
+
                 DailyBudget budget=new DailyBudget();
-                budget.setAccountId(accountid);
-                budget.setId(buid);
-                budget.setAmount(aamount);
-                budget.setBalance(bbalance);
-                budget.setYear(yyear);
-                budget.setMonth(mmonth);
-                budget.setDay(dday);
+                Date date = new Date(yyear, mmonth-1, dday);
+                budget = new DailyBudget(buid, aamount, date, bbalance,accountid);
                 list.add(budget);
             }
             cursor.close();
@@ -105,19 +127,15 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
-                String buid = cursor.getString(cursor.getColumnIndex("budgetId"));
+                int buid = cursor.getInt(cursor.getColumnIndex("budgetId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 double bbalance=cursor.getDouble(cursor.getColumnIndex("balance"));
                 int yyear=cursor.getInt(cursor.getColumnIndex("year"));
                 int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
                 int dday=cursor.getInt(cursor.getColumnIndex("day"));
-                budget.setAccountId(accountid);
-                budget.setId(buid);
-                budget.setAmount(aamount);
-                budget.setBalance(bbalance);
-                budget.setYear(yyear);
-                budget.setMonth(mmonth);
-                budget.setDay(dday);
+
+                Date date = new Date(yyear, mmonth-1, dday);
+                budget = new DailyBudget(buid, aamount, date, bbalance, accountid);
             }
             cursor.close();
             db.close();
@@ -135,19 +153,15 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
-                String buid = cursor.getString(cursor.getColumnIndex("budgetId"));
+                int buid = cursor.getInt(cursor.getColumnIndex("budgetId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 double bbalance=cursor.getDouble(cursor.getColumnIndex("balance"));
                 int yyear=cursor.getInt(cursor.getColumnIndex("year"));
                 int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
                 int dday=cursor.getInt(cursor.getColumnIndex("day"));
-                budget.setAccountId(accountid);
-                budget.setId(buid);
-                budget.setAmount(aamount);
-                budget.setBalance(bbalance);
-                budget.setYear(yyear);
-                budget.setMonth(mmonth);
-                budget.setDay(dday);
+
+                Date date = new Date(yyear, mmonth-1, dday);
+                budget = new DailyBudget(buid, aamount, date, bbalance, accountid);
                 dailybudgetarray.add(budget);
             }
             cursor.close();

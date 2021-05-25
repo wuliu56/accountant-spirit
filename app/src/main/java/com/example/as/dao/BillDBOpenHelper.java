@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class BillDBOpenHelper extends SQLiteOpenHelper {
-    final String CREATE_TABLE_BILL="create table tb_bill (accountId,billId,walletId,typeId,amount,date,primary key (billId))";
+    final String CREATE_TABLE_BILL="create table tb_bill (accountId,billId integer primary key autoincrement,walletId,typeId,amount,date)";
     public BillDBOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, null, 1);
     }

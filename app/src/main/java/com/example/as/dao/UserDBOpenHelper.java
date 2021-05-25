@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import com.example.as.dao.impl.UserDaoImpl;
 
 public class UserDBOpenHelper extends SQLiteOpenHelper {
-    final String CREATE_TABLE_USER="create table tb_user (accountId,username,pwd,currency,primary key (accountId))";
+    final String CREATE_TABLE_USER="create table tb_user (accountId,username,pwd,currency,primary key(accountId))";
     public UserDBOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, null, 1);
     }

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class WalletDBOpenHelper extends SQLiteOpenHelper {
-    final String CREATE_TABLE_WALLET="create table tb_wallet (accountId,walletId,name,amount,primary key (walletId))";
+    final String CREATE_TABLE_WALLET="create table tb_wallet (accountId,walletId integer primary key autoincrement,name,amount)";
     public WalletDBOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, null, 1);
     }

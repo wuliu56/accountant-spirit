@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -68,8 +69,8 @@ public class SetWalletActivity extends Activity {
             //重写getView方法实现点击的效果
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                TextView tv_wallet_name = (TextView) findViewById(R.id.textView_wallet_name);
-                TextView tv_wallet_amount =(TextView) findViewById(R.id.textView_wallet_amount);//获取一行中的两个TextView
+                TextView tv_wallet_name = (TextView) view.findViewById(R.id.textView_wallet_name);
+                TextView tv_wallet_amount =(TextView) view.findViewById(R.id.textView_wallet_amount);//获取一行中的两个TextView
 
                 if(position == curPosition){
                     tv_wallet_name.setEnabled(true);
@@ -85,14 +86,41 @@ public class SetWalletActivity extends Activity {
         listView.setAdapter(listAdapter);
 
         //设置点击一行的监听器
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 curPosition = position;
-                String name = et_name.getText().toString();
-                double amount = Double.parseDouble(et_amount.getText().toString());
-                curWallet = new Wallet(name, amount, accountId);
+                TextView tv_wallet_name = (TextView) view.findViewById(R.id.textView_wallet_name);
+                TextView tv_wallet_amount =(TextView) view.findViewById(R.id.textView_wallet_amount);
+                String name_text = tv_wallet_name.getText().toString();
+                String name = name_text.substring(4);
+                String amount_text = tv_wallet_amount.getText().toString();
+                String amount = amount_text.substring(4,amount_text.length()-1);
+                et_name.setText(name);
+                et_amount.setText(amount);
+                listAdapter.notifyDataSetChanged();
             }
         });
+
+    btn_cancel.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
+    });
+
+    btn_confirm.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String in_name = et_name.getText().toString();
+            double in_amount = Double.parseDouble(et_amount.getText().toString());
+            curWallet = am.getWalletList().getWalletByIndex(curPosition);
+            String old_name = curWallet.getName();
+            curWallet.setName(in_name);
+            curWallet.setAmount(in_amount);
+            Toast.makeText(getApplicationContext(),accountId,Toast.LENGTH_SHORT).show();
+            am.setWallet(old_name, curWallet);
+        }
+    });
     }
 }

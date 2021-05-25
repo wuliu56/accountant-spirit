@@ -51,23 +51,40 @@ public class WalletDaoImpl implements WalletDao {
 
 
     @Override
-    public Wallet findByName(String name) {
+    public Wallet findByName(String name, String accountId) {
         Wallet wallet=null;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from tb_wallet where name=?", new String[]{name});
+            Cursor cursor = db.rawQuery("select * from tb_wallet where name=? and accountId=?", new String[]{name,accountId});
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
-                String iid = cursor.getString(cursor.getColumnIndex("walletId"));
+                int iid = cursor.getInt(cursor.getColumnIndex("walletId"));
                 String nname = cursor.getString(cursor.getColumnIndex("name"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
 
-                wallet.setAccountId(accountid);
-                wallet.setId(iid);
-                wallet.setName(nname);
-                wallet.setAmount(aamount);
+                wallet = new Wallet(iid, nname, aamount, accountid);
+            }
+            cursor.close();
+            db.close();
+        }
+        return wallet;
+    }
 
+    @Override
+    public Wallet findByWalletId(Integer walletId, String accountId) {
+        Wallet wallet=null;
+        SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from tb_wallet where walletId=? and accountId=?", new String[]{String.valueOf(walletId),accountId});
+
+            while (cursor.moveToNext()) {
+                String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
+                int iid = cursor.getInt(cursor.getColumnIndex("walletId"));
+                String nname = cursor.getString(cursor.getColumnIndex("name"));
+                double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
+
+                wallet = new Wallet(iid, nname, aamount, accountid);
             }
             cursor.close();
             db.close();
@@ -84,7 +101,7 @@ public class WalletDaoImpl implements WalletDao {
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
-                String iid = cursor.getString(cursor.getColumnIndex("walletId"));
+                int iid = (int) cursor.getLong(cursor.getColumnIndex("walletId"));
                 String nname = cursor.getString(cursor.getColumnIndex("name"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 Wallet wallet = new Wallet(iid, nname, aamount, accountid);
@@ -96,18 +113,4 @@ public class WalletDaoImpl implements WalletDao {
         return list;
     }
 
-    public int getSize(){
-        int count=0;
-        SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
-        if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from tb_wallet",null);
-
-            while (cursor.moveToNext()) {
-                count++;
-            }
-            cursor.close();
-            db.close();
-        }
-        return count;
-    }
 }
