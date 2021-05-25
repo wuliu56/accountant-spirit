@@ -1,7 +1,10 @@
 package com.example.as.service;
 
 import android.app.Activity;
+import android.content.Context;
+import android.widget.Toast;
 
+import com.example.as.R;
 import com.example.as.dao.WalletDao;
 import com.example.as.dao.impl.AccountInfoDaoImpl;
 import com.example.as.dao.impl.TypeDaoImpl;
@@ -17,24 +20,32 @@ import com.example.as.entity.Wallet;
 import com.example.as.entity.WalletList;
 import com.example.as.view.account_management.AsApplication;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 public class AccountManager {
     private String accountId = AsApplication.getAccountId();
     private CurrencyList currencylist = new CurrencyList();
     private WalletList walletList = null;
-
+    private TypeList typeList = null;
 
     private UserDaoImpl userdaoimpl = new UserDaoImpl(AsApplication.getContext());
     private AccountInfoDaoImpl accountinfodaoimpl = new AccountInfoDaoImpl(AsApplication.getContext());
     private WalletDaoImpl walletdaoimpl = new WalletDaoImpl(AsApplication.getContext());
     private TypeDaoImpl typedaoimpl = new TypeDaoImpl(AsApplication.getContext());
 
+    //构造方法
     public AccountManager(){}
 
     public AccountManager(String accountId){
         this.accountId = accountId;
         walletList = new WalletList(walletdaoimpl.findByAccountId(accountId));
+        typeList = new TypeList(typedaoimpl.findAll(accountId));
     }
 
+
+
+    //登录注册
     public boolean logUp(String username,String password){
         //注册
 
@@ -51,11 +62,30 @@ public class AccountManager {
             userdaoimpl.insert(newAccount);
 
             //插入wallet记录，默认为现金，资产额0；支付宝，资产额0；微信，资产额0；银行卡，资产额0
-            walletdaoimpl.insert(new Wallet(null, "现金", 0.0, accountId));
-            walletdaoimpl.insert(new Wallet(null, "支付宝", 0.0, accountId));
-            walletdaoimpl.insert(new Wallet(null, "微信", 0.0, accountId));
-            walletdaoimpl.insert(new Wallet(null, "银行卡", 0.0, accountId));
+            newWallet(new Wallet(null, "现金", 0.0, accountId));
+            newWallet(new Wallet(null, "支付宝", 0.0, accountId));
+            newWallet(new Wallet(null, "微信", 0.0, accountId));
+            newWallet(new Wallet(null, "银行卡", 0.0, accountId));
 
+            //插入默认类型
+            Context context = AsApplication.getContext();
+            ArrayList<String[]> typeNameList = new ArrayList<String[]>();
+            typeNameList.add(context.getResources().getStringArray(R.array.category1));
+            typeNameList.add(context.getResources().getStringArray(R.array.category2));
+            typeNameList.add(context.getResources().getStringArray(R.array.category3));
+            typeNameList.add(context.getResources().getStringArray(R.array.category4));
+            typeNameList.add(context.getResources().getStringArray(R.array.category5));
+            typeNameList.add(context.getResources().getStringArray(R.array.category6));
+            typeNameList.add(context.getResources().getStringArray(R.array.category7));
+            typeNameList.add(context.getResources().getStringArray(R.array.category8));
+            typeNameList.add(context.getResources().getStringArray(R.array.category9));
+            typeNameList.add(context.getResources().getStringArray(R.array.category10));
+            for(int i = 0; i < typeNameList.size(); i++){
+                String[] typeNameArr = typeNameList.get(i);
+                for(int j = 1; j < typeNameArr.length; j++){
+                    newType(new Type(typeNameArr[j], typeNameArr[0], accountId));
+                }
+            }
             return true;
         } else //用户名已被注册
             return false;
@@ -88,6 +118,9 @@ public class AccountManager {
         return true;
     }
 
+
+
+    //修改账户密码和信息
     public boolean changePassword(String oldPassword,String newPassword){
         Account tempAccount = userdaoimpl.findByAccountId(accountId);
         if(tempAccount.getPassword().equals(oldPassword)){
@@ -112,6 +145,9 @@ public class AccountManager {
         }
     }
 
+
+
+    //管理账户的当前货币，钱包清单以及类型清单
     public Currency getCurrenctCurrency() {
         return userdaoimpl.findByAccountId(accountId).getCurrency();
     }
@@ -120,9 +156,7 @@ public class AccountManager {
         userdaoimpl.updateCurrency(accountId,currency.getName());
     }
 
-    public CurrencyList getCurrencyList(){//所有用户的货币类型列表还是单纯的货币类型列表
-        return currencylist;
-    }
+    public CurrencyList getCurrencyList(){ return currencylist; }
 
     public void newWallet(Wallet wallet){
         walletdaoimpl.insert(wallet);
@@ -143,7 +177,6 @@ public class AccountManager {
     }
 
     public WalletList getWalletList(){
-
         return walletList;
     }
 
@@ -162,9 +195,10 @@ public class AccountManager {
     public Type queryTypeByName(String name){
         return typedaoimpl.findByName(name,accountId);
     }
-    /*public TypeList getTypeList(){
-        TypeList typelist=new TypeList();
-        typelist.setTypeArray(typedaoimpl.findAll(accountId));
-        return typelist;
-    }*/
+
+    public ArrayList<Type> queryTypeListByCategory(String category){
+        return typedaoimpl.findByCategory(category);
+    }
+
+    public TypeList getTypeList() { return typeList; }
 }

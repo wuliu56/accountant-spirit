@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category1">
+        <item name="category">收入</item>
+        <item name="type_name1_1">工资</item>>
+        <item name="type_name1_2">借入</item>>
+        <item name="type_name1_3">投资盈利</item>>
+        <item name="type_name1_4">生活费</item>>
+        <item name="type_name1_5">红包</item>>
+        <item name="type_name1_6">报销</item>>
+    </string-array>
+
+    <string-array name="category2">
+        <item name="category">购物</item>
+        <item name="type_name2_1">生活用品</item>>
+        <item name="type_name2_2">服装</item>>
+        <item name="type_name2_3">饰品</item>>
+        <item name="type_name2_4">网购</item>>
+        <item name="type_name2_5">理发</item>>
+        <item name="type_name2_6">护肤品</item>>
+    </string-array>
+
+    <string-array name="category3">
+        <item name="category">出行</item>
+        <item name="type_name3_1">交通</item>>
+        <item name="type_name3_2">加油</item>>
+        <item name="type_name3_3">停车费</item>>
+        <item name="type_name3_4">公交车</item>>
+        <item name="type_name3_5">出租车</item>>
+        <item name="type_name3_6">地铁</item>>
+        <item name="type_name3_7">火车</item>>
+        <item name="type_name3_8">飞机</item>>
+    </string-array>
+
+    <string-array name="category4">
+        <item name="category4">饮食</item>
+        <item name="type_name4_1">早餐</item>>
+        <item name="type_name4_2">午餐</item>>
+        <item name="type_name4_3">晚餐</item>>
+        <item name="type_name4_4">零食</item>>
+        <item name="type_name4_5">买菜</item>>
+        <item name="type_name4_6">酒水</item>>
+        <item name="type_name4_7">水果</item>>
+    </string-array>
+
+    <string-array name="category5">
+        <item name="category">住房</item>
+        <item name="type_name5_1">水费</item>>
+        <item name="type_name5_2">电费</item>>
+        <item name="type_name5_3">燃气费</item>>
+        <item name="type_name5_4">房租</item>>
+        <item name="type_name5_5">房贷</item>>
+        <item name="type_name5_6">物业费</item>>
+        <item name="type_name5_7">网费</item>>
+        <item name="type_name5_8">话费</item>>
+        <item name="type_name5_9">家居</item>>
+    </string-array>
+
+    <string-array name="category6">
+        <item name="category">教育</item>
+        <item name="type_name6_1">学习</item>>
+        <item name="type_name6_2">书籍</item>>
+        <item name="type_name6_3">文具</item>>
+        <item name="type_name6_4">学费</item>>
+        <item name="type_name6_5">考试</item>>
+        <item name="type_name6_6">培训</item>>
+        <item name="type_name6_7">辅导</item>>
+        <item name="type_name6_8">育儿</item>>
+    </string-array>
+
+    <string-array name="category7">
+        <item name="category">娱乐</item>
+        <item name="type_name7_1">电影</item>>
+        <item name="type_name7_2">游戏</item>>
+        <item name="type_name7_3">追星</item>>
+        <item name="type_name7_4">KTV</item>>
+        <item name="type_name7_5">酒吧</item>>
+        <item name="type_name7_6">运动健身</item>>
+        <item name="type_name7_7">旅游</item>>
+        <item name="type_name7_8">棋牌</item>>
+        <item name="type_name7_9">洗浴</item>>
+    </string-array>
+
+    <string-array name="category8">
+        <item name="category8">医药</item>
+        <item name="type_name8_1">药品</item>>
+        <item name="type_name8_2">医院</item>>
+        <item name="type_name8_3">养生保健</item>>
+    </string-array>
+
+    <string-array name="category9">
+        <item name="category">投资</item>
+        <item name="type_name9_1">网贷</item>>
+        <item name="type_name9_2">基金</item>>
+        <item name="type_name9_3">股票</item>>
+        <item name="type_name9_4">银行理财</item>>
+        <item name="type_name9_5">投资亏损</item>>
+    </string-array>
+
+    <string-array name="category10">
+        <item name="category">其他</item>
+        <item name="type_name10_1">意外损失</item>>
+        <item name="type_name10_2">手续费</item>>
+        <item name="type_name10_3">其他</item>>
+    </string-array>
+
+</resources>

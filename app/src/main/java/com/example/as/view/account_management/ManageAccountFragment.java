@@ -62,8 +62,8 @@ public class ManageAccountFragment extends Fragment {
 
         //设置ListView
         String[] title = new String[]{"修改账户信息", "更换密码", "设置货币", "设置钱包", "设置收支类型"};
-        int[] imageId = new int[]{R.drawable.edit_account_info, R.drawable.change_password, R.drawable.set_currency,
-                R.drawable.set_wallet, R.drawable.set_type};
+        int[] imageId = new int[]{R.mipmap.edit_account_info, R.mipmap.change_password, R.mipmap.set_currency,
+                R.mipmap.set_wallet, R.mipmap.set_type};
         List<Map<String, Object>> listItem = new ArrayList<Map<String, Object>>();
         for(int i = 0;i < title.length;i++) {
             Map<String, Object> map = new HashMap<String, Object>();

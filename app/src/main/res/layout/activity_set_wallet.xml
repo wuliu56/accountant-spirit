@@ -35,11 +35,11 @@
         android:id="@+id/button_confirm_set_wallet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="确定"
+        android:text="修改"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_cancel_set_wallet"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_wallet_amount"/>
+        app:layout_constraintTop_toBottomOf="@+id/editText_wallet_amount" />
 
     <Button
         android:id="@+id/button_cancel_set_wallet"
@@ -54,7 +54,7 @@
     <ListView
         android:id="@+id/listView_set_wallet"
         android:layout_width="match_parent"
-        android:layout_height="384dp"
+        android:layout_height="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

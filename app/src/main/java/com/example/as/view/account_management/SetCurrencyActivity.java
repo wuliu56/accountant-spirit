@@ -72,7 +72,7 @@ public class SetCurrencyActivity extends Activity {
         listView.setAdapter(listAdapter);
 
         //设置当前货币信息
-        textView_currency.setText(textView_currency.getText().toString() + " " +
+        textView_currency.setText(textView_currency.getText().toString()  +
                 currentCurrency.getSymbol() + currentCurrency.getName());
 
         //设置ListView监听器
@@ -82,7 +82,7 @@ public class SetCurrencyActivity extends Activity {
                 TextView textView_name = view.findViewById(R.id.textView_currency_name);
                 TextView textView_symbol = view.findViewById(R.id.textView_symbol);
                 String sel_name = nameList.get(position);
-                String sel_symbol = nameList.get(position);
+                String sel_symbol = symbolList.get(position);
                 currentCurrency = new Currency(sel_name, sel_symbol);
                 curPosition = position;
                 listAdapter.notifyDataSetChanged();
@@ -93,7 +93,7 @@ public class SetCurrencyActivity extends Activity {
             @Override
             public void onClick(View v) {
                 am.setCurrentCurrency(currentCurrency);
-                finish();
+                textView_currency.setText("当前货币： " + currentCurrency.getSymbol() + currentCurrency.getName());
             }
         });
 
@@ -119,7 +119,7 @@ public class SetCurrencyActivity extends Activity {
             if(curPosition == position){
                 tv_name.setEnabled(true);
                 tv_symbol.setEnabled(true);
-                Drawable drawable = getResources().getDrawable(R.drawable.currency_selected);
+                Drawable drawable = getResources().getDrawable(R.mipmap.currency_selected);
                 drawable.setBounds(0, 0, 40, 40);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
                 tv_symbol.setCompoundDrawables(drawable, null, null, null);//只放左边
             }

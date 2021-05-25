@@ -42,7 +42,7 @@ public class WalletDaoImpl implements WalletDao {
     @Override
     public boolean updateWallet(String name, Wallet wallet) {
 
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set amount=? where mame=? and walletId=?", new Object[]{wallet.getAmount(),name,wallet.getId()});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set amount=? where name=? and walletId=?", new Object[]{wallet.getAmount(),name,wallet.getId()});
         dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set name=? where name=? and walletId=?", new Object[]{wallet.getName(),name,wallet.getId()});
         dbOpenHelper.getWritableDatabase().close();
         return true;

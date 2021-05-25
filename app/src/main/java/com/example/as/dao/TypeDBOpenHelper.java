@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class TypeDBOpenHelper extends SQLiteOpenHelper {
-    final String CREATE_TABLE_TYPE="create table tb_type (accountId,typeId integer primary key autoincrement,type,category)";
+    final String CREATE_TABLE_TYPE="create table tb_type (accountId,typeId integer primary key autoincrement,name,category)";
     public TypeDBOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, null, 1);
     }

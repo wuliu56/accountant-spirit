@@ -10,7 +10,7 @@
         android:id="@+id/textView_current_currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="当前货币："
+        android:text="当前货币： "
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toTopOf="@+id/listView_set_currency"
         app:layout_constraintEnd_toEndOf="parent"

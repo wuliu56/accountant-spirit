@@ -27,7 +27,7 @@ public class TypeDaoImpl implements TypeDao {
         values.put("typeId", type.getId());
         values.put("name", type.getName());
         values.put("category", type.getCategory());
-        dbOpenHelper.getWritableDatabase().insert("tb_type", null, values);
+        dbOpenHelper.getWritableDatabase().insert("tb_type",null,values);
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }

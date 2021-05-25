@@ -55,9 +55,12 @@ public class SetWalletActivity extends Activity {
         Wallet wallet = null;
 
         for(int i = 0;i < walletList.getSize();i++){
+            //先后设置walletNameList,walletAmountList,walletItemList的内容
             wallet = walletList.getWalletByIndex(i);
             String name = wallet.getName();
             Double amount = wallet.getAmount();
+            walletNameList.add(name);
+            walletAmountList.add(amount);
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("name", "钱包名："+name);
             map.put("amount", "资产额："+amount+am.getCurrenctCurrency().getSymbol());
@@ -112,14 +115,25 @@ public class SetWalletActivity extends Activity {
     btn_confirm.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            //获取输入信息
             String in_name = et_name.getText().toString();
             double in_amount = Double.parseDouble(et_amount.getText().toString());
+
+            //修改curWallet，更新数据库
             curWallet = am.getWalletList().getWalletByIndex(curPosition);
             String old_name = curWallet.getName();
             curWallet.setName(in_name);
             curWallet.setAmount(in_amount);
-            Toast.makeText(getApplicationContext(),accountId,Toast.LENGTH_SHORT).show();
             am.setWallet(old_name, curWallet);
+
+            //修改数组和集合，更新界面中的listView
+            walletNameList.set(curPosition, in_name);
+            walletAmountList.set(curPosition, in_amount);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("name", "钱包名：" + in_name);
+            map.put("amount", "资产额：" + in_amount + am.getCurrenctCurrency().getSymbol());
+            walletItemList.set(curPosition, map);
+            listAdapter.notifyDataSetChanged();
         }
     });
     }
