@@ -1,12 +1,14 @@
 package com.example.as.dao.impl;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.as.dao.BillDBOpenHelper;
 import com.example.as.dao.BillDao;
 import com.example.as.entity.Bill;
+import com.example.as.entity.Type;
 import com.example.as.entity.Wallet;
 
 import java.sql.Date;
@@ -15,8 +17,8 @@ import java.util.ArrayList;
 public class BillDaoImpl implements BillDao {
     public final BillDBOpenHelper dbOpenHelper;
 
-    public BillDaoImpl() {
-        dbOpenHelper=new BillDBOpenHelper(null,null,null,1);
+    public BillDaoImpl(Context context) {
+        dbOpenHelper=new BillDBOpenHelper(context,"bill.db",null,1);
     }
 
     @Override
@@ -52,11 +54,11 @@ public class BillDaoImpl implements BillDao {
 
     @Override
     public ArrayList<Bill> findByAmount(double amount) {
-        ArrayList<Bill> list = new ArrayList<>();
+        ArrayList<Bill> list = null;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_bill where amount=?",new String[]{String.valueOf(amount)});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String bid = cursor.getString(cursor.getColumnIndex("billId"));
@@ -81,11 +83,11 @@ public class BillDaoImpl implements BillDao {
 
     @Override
     public ArrayList<Bill> findByDate(Date date) {
-        ArrayList<Bill> list = new ArrayList<>();
+        ArrayList<Bill> list = null;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_bill where date=?",new String[]{String.valueOf(date)});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String bid = cursor.getString(cursor.getColumnIndex("billId"));
@@ -110,11 +112,11 @@ public class BillDaoImpl implements BillDao {
 
     @Override
     public ArrayList<Bill> findByType(String typeId) {
-        ArrayList<Bill> list = new ArrayList<>();
+        ArrayList<Bill> list = null;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_bill where typeId=?",new String[]{typeId});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String bid = cursor.getString(cursor.getColumnIndex("billId"));
@@ -125,8 +127,8 @@ public class BillDaoImpl implements BillDao {
                 Bill bill = new Bill();
                 bill.setAccountId(accountid);
                 bill.setId(bid);
-                bill.getWallet().setId(wid);
-                bill.getType().setId(tid);
+                bill.setWallet(new Wallet());
+                bill.setType(new Type());
                 bill.setAmount(aamount);
                 bill.setDate(Date.valueOf(ddate));
                 list.add(bill);
@@ -139,11 +141,11 @@ public class BillDaoImpl implements BillDao {
 
     @Override
     public ArrayList<Bill> findAll(String accountId) {
-        ArrayList<Bill> list = new ArrayList<>();
+        ArrayList<Bill> list = null;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_bill where accountId=?",new String[]{accountId});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String bid = cursor.getString(cursor.getColumnIndex("billId"));
@@ -154,8 +156,8 @@ public class BillDaoImpl implements BillDao {
                 Bill bill = new Bill();
                 bill.setAccountId(accountid);
                 bill.setId(bid);
-                bill.getWallet().setId(wid);
-                bill.getType().setId(tid);
+                bill.setWallet(new Wallet());
+                bill.setType(new Type());
                 bill.setAmount(aamount);
                 bill.setDate(Date.valueOf(ddate));
                 list.add(bill);

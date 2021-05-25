@@ -8,6 +8,14 @@ public class Wallet {
     private double amount;
     private String accountId;
 
+    public Wallet(){}
+
+    public Wallet(String id, String name, double amount, String accountId){
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.accountId = accountId;
+    }
 
     public String getId() {
         return id;

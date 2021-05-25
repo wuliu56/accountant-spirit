@@ -1,6 +1,7 @@
 package com.example.as.dao.impl;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -15,8 +16,8 @@ import java.util.List;
 public class TypeDaoImpl implements TypeDao {
     public final TypeDBOpenHelper dbOpenHelper;
 
-    public TypeDaoImpl() {
-        dbOpenHelper = new TypeDBOpenHelper(null, null, null, 1);
+    public TypeDaoImpl(Context context) {
+        dbOpenHelper = new TypeDBOpenHelper(context, "type.db", null, 1);
     }
 
     @Override
@@ -48,35 +49,36 @@ public class TypeDaoImpl implements TypeDao {
 
     @Override
     public Type findByName(String name,String accountId){
+        Type type=null;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_type where name=? and accountId=?", new String[]{name,accountId});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String iid = cursor.getString(cursor.getColumnIndex("typeId"));
                 String nname = cursor.getString(cursor.getColumnIndex("name"));
                 String ccategory=cursor.getString(cursor.getColumnIndex("category"));
-                Type type=new Type();
+
                 type.setAccountId(accountid);
                 type.setId(iid);
                 type.setName(nname);
                 type.setCategory(ccategory);
-                return type;
+
             }
             cursor.close();
             db.close();
         }
-        return null;
+        return type;
     }
 
     @Override
     public ArrayList<Type> findAll(String accountId) {
-        ArrayList<Type> list = new ArrayList<>();
+        ArrayList<Type> list = null;
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_type where accountId=?", new String[]{accountId});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String iid = cursor.getString(cursor.getColumnIndex("typeId"));
@@ -97,11 +99,11 @@ public class TypeDaoImpl implements TypeDao {
 
     @Override
     public ArrayList<Type> findByCategory(String category) {
-        ArrayList<Type> list = new ArrayList<>();
+        ArrayList<Type> list = null;
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_type where category=?", new String[]{category});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String iid = cursor.getString(cursor.getColumnIndex("typeId"));

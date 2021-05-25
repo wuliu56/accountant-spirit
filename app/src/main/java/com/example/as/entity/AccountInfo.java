@@ -8,10 +8,18 @@ public class AccountInfo {
     private String name;
     private String sex;
     private Date birthday;
-    private String position;
     private String icon;
     private String accountId;
 
+    public AccountInfo(){}
+
+    public AccountInfo(String name, String sex, Date birthday, String icon, String accountId){
+        this.name = name;
+        this.sex = sex;
+        this.birthday = birthday;
+        this.icon = icon;
+        this.accountId = accountId;
+    }
 
     public String getName() {
         return name;
@@ -35,14 +43,6 @@ public class AccountInfo {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
     }
 
     public String getIcon() {

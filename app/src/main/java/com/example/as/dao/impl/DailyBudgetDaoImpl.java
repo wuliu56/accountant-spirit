@@ -1,6 +1,7 @@
 package com.example.as.dao.impl;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 public class DailyBudgetDaoImpl implements DailyBudgetDao {
     public final DailyBudgetDBOpenHelper dbOpenHelper;
 
-    public DailyBudgetDaoImpl() {
-        dbOpenHelper=new DailyBudgetDBOpenHelper(null,null,null,1);
+    public DailyBudgetDaoImpl(Context context) {
+        dbOpenHelper=new DailyBudgetDBOpenHelper(context,"dailyBudget.db",null,1);
     }
 
     @Override
@@ -66,11 +67,11 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
 
     @Override
     public ArrayList<DailyBudget> findByAccountId(String id) {
-        ArrayList<DailyBudget> list = new ArrayList<>();
+        ArrayList<DailyBudget> list = null;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_budget where accountId=?", new String[]{id});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String buid = cursor.getString(cursor.getColumnIndex("budgetId"));
@@ -97,11 +98,11 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
 
     @Override
     public DailyBudget findByDay(int year,int month,int day,String accountId) {
-        DailyBudget budget=new DailyBudget();
+        DailyBudget budget=null;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_budget where year=? and month=? and day=? and accountId=?",new String[]{String.valueOf(year),String.valueOf(month),String.valueOf(day),accountId});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String buid = cursor.getString(cursor.getColumnIndex("budgetId"));
@@ -126,12 +127,12 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
 
     @Override
     public ArrayList<DailyBudget> findByMonth(int year,int month,String accountId) {
-        DailyBudget budget=new DailyBudget();
+        DailyBudget budget=null;
         ArrayList<DailyBudget> dailybudgetarray=new ArrayList<DailyBudget>();
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_budget where year=? and month=? and accountId=?",new String[]{String.valueOf(year),String.valueOf(month),accountId});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String buid = cursor.getString(cursor.getColumnIndex("budgetId"));

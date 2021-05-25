@@ -12,6 +12,8 @@ public class WalletList {
     int size;
 
 
+    public WalletList(){}
+
     public void setWalletArray(ArrayList<Wallet> walletArray) {
         this.walletArray = walletArray;
     }

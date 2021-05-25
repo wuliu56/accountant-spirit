@@ -38,19 +38,24 @@ public class ChangePasswordActivity extends Activity {
                 String old_password = editText_old_password.getText().toString();//获取旧密码
                 String new_password = editText_new_password.getText().toString();//获取新密码
                 String confirm_password = editText_confirm_password.getText().toString();//获取确认新密码
+
+                //未填写完全
+                if(old_password.length() == 0||new_password.length() ==0 ||confirm_password.length() == 0){
+                    Toast.makeText(ChangePasswordActivity.this,"请填写完整",Toast.LENGTH_SHORT).show();
+                }
                 //两次新密码不一致，提示并清空两个新密码编辑框
-                if(!new_password.equals(confirm_password)){
+                else if(!new_password.equals(confirm_password)){
                     Toast.makeText(ChangePasswordActivity.this,"两次输入的新密码不一致",Toast.LENGTH_SHORT).show();
                     editText_new_password.setText(null);
                     editText_confirm_password.setText(null);
                 }
                 //新旧密码一样，提示并清空两个新密码编辑框
-                else if(new_password.equals(confirm_password)){
+                else if(new_password.equals(old_password)){
                     Toast.makeText(ChangePasswordActivity.this,"新旧密码相同",Toast.LENGTH_SHORT).show();
                     editText_new_password.setText(null);
                     editText_confirm_password.setText(null);
                 }
-                //旧密码正确，更换密码成功，更新SharedPreference文件
+                //旧密码正确时，更换密码成功，更新SharedPreference文件
                 else if(am.changePassword(old_password, new_password)){
                     SharedPreferences sp = getSharedPreferences("Id_Password",MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();

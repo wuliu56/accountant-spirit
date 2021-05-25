@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="650dp"
+    android:background="#F4F2F2">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageView_icon"
         android:layout_width="96dp"
         android:layout_height="76dp"
         android:src="@mipmap/ic_launcher"
@@ -22,77 +23,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 管理账户"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.085" />
-
-    <Button
-        android:id="@+id/button_edit_account_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="修改账户信息"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintVertical_bias="0.032" />
-
-    <Button
-        android:id="@+id/button_change_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="更换密码"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_edit_account_info"
-        app:layout_constraintVertical_bias="0.08" />
-
-    <Button
-        android:id="@+id/button_set_walletList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="设置钱包"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_set_currency"
-        app:layout_constraintVertical_bias="0.139" />
-
-    <Button
-        android:id="@+id/button_set_currency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text=" 设置货币"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_change_password" />
-
-    <Button
-        android:id="@+id/button_set_typeList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="设置收支类型"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_set_walletList"
-        app:layout_constraintVertical_bias="0.176" />
-
-    <Button
-        android:id="@+id/button_log_out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="登出"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_set_typeList"
-        app:layout_constraintVertical_bias="0.441" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -100,5 +36,30 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.34" />
+
+    <ListView
+        android:id="@+id/listView_set_currency"
+        android:layout_width="390dp"
+        android:layout_height="305dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintVertical_bias="0.004" />
+
+    <Button
+        android:id="@+id/button_log_out"
+        android:layout_width="390dp"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:text="退出登录"
+        android:textColor="#E91E63"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.935" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

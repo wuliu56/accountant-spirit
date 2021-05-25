@@ -1,7 +1,7 @@
 package com.example.as.service;
 
 import android.app.Activity;
-import android.widget.Toast;
+import android.content.Intent;
 
 import com.example.as.dao.impl.AccountInfoDaoImpl;
 import com.example.as.dao.impl.TypeDaoImpl;
@@ -17,21 +17,23 @@ import com.example.as.entity.Wallet;
 import com.example.as.entity.WalletList;
 import com.example.as.view.account_management.AsApplication;
 
-import java.util.ArrayList;
-
 public class AccountManager {
-    private String accountId;
+    private String accountId = AsApplication.getAccountId();
     private CurrencyList currencylist = new CurrencyList();
+    private WalletList walletList = null;
+
 
     private UserDaoImpl userdaoimpl = new UserDaoImpl(AsApplication.getContext());
-    private AccountInfoDaoImpl accountinfodaoimpl;
-    private WalletDaoImpl walletdaoimpl;
+    private AccountInfoDaoImpl accountinfodaoimpl = new AccountInfoDaoImpl(AsApplication.getContext());
+    private WalletDaoImpl walletdaoimpl = new WalletDaoImpl(AsApplication.getContext());
     private TypeDaoImpl typedaoimpl;
 
     public AccountManager(){}
 
     public AccountManager(String accountId){
         this.accountId = accountId;
+        walletList = new WalletList();
+        walletList.setWalletArray(walletdaoimpl.findByAccountId(accountId));
     }
 
     public boolean logUp(String username,String password){
@@ -42,12 +44,19 @@ public class AccountManager {
         //首先判断当前用户名是否已经被注册
         if(tempAccount == null){
             //用户名还未注册,写入sqlite
-            Account newAccount = new Account();
-            newAccount.setUsername(username);
-            newAccount.setPassword(password);
-            newAccount.setCurrency(currencylist.getCurrencyByName("人民币"));
-            newAccount.setAccountId(String.valueOf(userdaoimpl.getSize()));
+
+            String accountId = String.valueOf(userdaoimpl.getSize());
+            //插入user记录
+            Account newAccount = new Account(accountId,username,
+                    password, currencylist.getCurrencyByName("人民币"));
             userdaoimpl.insert(newAccount);
+
+            //插入wallet记录，默认为现金，资产额0；支付宝，资产额0；微信，资产额0；银行卡，资产额0
+            walletdaoimpl.insert(new Wallet(String.valueOf(walletdaoimpl.getSize()), "现金", 0.0, accountId));
+            walletdaoimpl.insert(new Wallet(String.valueOf(walletdaoimpl.getSize()), "支付宝", 0.0, accountId));
+            walletdaoimpl.insert(new Wallet(String.valueOf(walletdaoimpl.getSize()), "微信", 0.0, accountId));
+            walletdaoimpl.insert(new Wallet(String.valueOf(walletdaoimpl.getSize()), "银行卡", 0.0, accountId));
+
             return true;
         } else //用户名已被注册
             return false;
@@ -97,7 +106,9 @@ public class AccountManager {
     }
 
     public void setAccountInfo(AccountInfo accountInfo) {
-        if(accountInfo.getAccountId().equals(accountId)){
+        if(accountinfodaoimpl.findByAccountId(accountId) == null)
+            accountinfodaoimpl.insert(accountInfo);
+        else{
             accountinfodaoimpl.updateAccountInfo(accountInfo);
         }
     }
@@ -133,9 +144,7 @@ public class AccountManager {
     }
 
     public WalletList getWalletList(){
-        WalletList walletlist=new WalletList();
-        walletlist.setWalletArray(walletdaoimpl.findByAccountId(accountId));
-        return walletlist;
+        return walletList;
     }
 
     public void newType(Type type){

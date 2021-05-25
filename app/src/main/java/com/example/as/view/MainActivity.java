@@ -1,8 +1,7 @@
 package com.example.as.view;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -15,7 +14,7 @@ import com.example.as.view.account_management.ManageAccountFragment;
 import com.example.as.view.bill_record.RecordBillFragment;
 import com.example.as.view.query_statistics.QueryFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
         btn3.setOnClickListener(l);
         RecordBillFragment recordBillFragment = new RecordBillFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(android.R.id.content,recordBillFragment);
+        if(savedInstanceState == null)
+            ft.add(android.R.id.content,recordBillFragment);
         ft.commit();
     }
 
@@ -57,6 +57,4 @@ public class MainActivity extends AppCompatActivity {
             ft.commit();
         }
     };
-
-
 }

@@ -90,7 +90,7 @@ public class UserDaoImpl implements UserDao {
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_user where accountId=?", new String[]{accountId});
-            if(cursor.moveToNext()==false)return null;
+
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 String name = cursor.getString(cursor.getColumnIndex("username"));
@@ -108,9 +108,8 @@ public class UserDaoImpl implements UserDao {
         int count=0;
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            System.out.println("open");
             Cursor cursor = db.rawQuery("select * from tb_user",null);
-            //if(cursor.moveToNext()==false)return 0;
+
             while (cursor.moveToNext()) {
                count++;
             }
