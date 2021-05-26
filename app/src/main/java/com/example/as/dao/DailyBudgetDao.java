@@ -14,7 +14,7 @@ public interface DailyBudgetDao {
     public boolean updateBalance(int budgetId,double balance);
     public boolean updateDay(int budgetId, int year,int month,int day);
     public ArrayList<DailyBudget> findByAccountId(String accountId);
-    public DailyBudget findByDay(int year,int month,int day,String accountId);
+    public DailyBudget findByDay(double amount, int year,int month,int day,String accountId);
     public DailyBudget findByBudgetId(Integer budgetId, String accountId);
     public ArrayList<DailyBudget> findByMonth(int year,int month,String accountId);
 }

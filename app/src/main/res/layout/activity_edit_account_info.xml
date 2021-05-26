@@ -10,25 +10,19 @@
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="性别"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.172"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTex_edit_nickname"
-        app:layout_constraintVertical_bias="0.03" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="@+id/editTex_edit_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/editTex_edit_nickname" />
 
     <RadioGroup
         android:id="@+id/radioGroup_edit_sex"
         android:layout_width="278dp"
         android:layout_height="77dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17"
-        app:layout_constraintVertical_bias="0.05">
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@+id/textView17"
+        app:layout_constraintTop_toBottomOf="@+id/textView17">
 
         <RadioButton
             android:id="@+id/radioButton_male"
@@ -47,172 +41,150 @@
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:text="昵称"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/editTex_edit_nickname"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.172"
+        app:layout_constraintHorizontal_bias="0.173"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.087" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTex_edit_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+        android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.328"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView18"
-        app:layout_constraintVertical_bias="0.033" />
+        app:layout_constraintStart_toStartOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
     <TextView
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="生日"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.172"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup_edit_sex"
-        app:layout_constraintVertical_bias="0.065" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+
+        app:layout_constraintStart_toStartOf="@+id/radioGroup_edit_sex"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup_edit_sex" />
 
     <Spinner
         android:id="@+id/spinner_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.181"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView19"
-        app:layout_constraintVertical_bias="0.063" />
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView20"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <Spinner
         android:id="@+id/spinner_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_year"
         app:layout_constraintStart_toEndOf="@+id/textView20"
-        app:layout_constraintTop_toBottomOf="@+id/textView19"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintTop_toTopOf="@+id/spinner_year"
+        app:layout_constraintEnd_toStartOf="@+id/textView21"
+        app:layout_constraintVertical_bias=".5" />
 
     <Spinner
         android:id="@+id/spinner_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintEnd_toStartOf="@+id/textView22"
+        app:layout_constraintBottom_toBottomOf="@+id/textView21"
         app:layout_constraintStart_toEndOf="@+id/textView21"
-        app:layout_constraintTop_toBottomOf="@+id/textView19"
-        app:layout_constraintVertical_bias="0.063" />
+        app:layout_constraintTop_toTopOf="@+id/textView21"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="年"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.024"
+        app:layout_constraintEnd_toStartOf="@+id/spinner_month"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_year"
         app:layout_constraintStart_toEndOf="@+id/spinner_year"
-        app:layout_constraintTop_toBottomOf="@+id/textView19"
-        app:layout_constraintVertical_bias="0.068" />
+        app:layout_constraintTop_toTopOf="@+id/spinner_year"
+        app:layout_constraintVertical_bias="0.500" />
 
     <TextView
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="月"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintEnd_toStartOf="@+id/spinner_day"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_month"
         app:layout_constraintStart_toEndOf="@+id/spinner_month"
-        app:layout_constraintTop_toBottomOf="@+id/textView19"
-        app:layout_constraintVertical_bias="0.07" />
+        app:layout_constraintTop_toTopOf="@+id/spinner_month" />
 
     <TextView
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="日"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_day"
+        app:layout_constraintEnd_toEndOf="@+id/radioGroup_edit_sex"
         app:layout_constraintStart_toEndOf="@+id/spinner_day"
-        app:layout_constraintTop_toBottomOf="@+id/textView19"
+        app:layout_constraintTop_toTopOf="@+id/spinner_day"
         app:layout_constraintVertical_bias="0.07" />
 
     <TextView
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="头像"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.172"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_year"
-        app:layout_constraintVertical_bias="0.083" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_year" />
 
     <ImageButton
         android:id="@+id/imageButton_upload_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginTop="15dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/upload_pic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.199"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView23"
-        app:layout_constraintVertical_bias="0.141" />
+        app:layout_constraintEnd_toStartOf="@id/imageView_icon_added"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/textView23"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
     <Button
         android:id="@+id/button_confirm_edit_account_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
         android:text="提交"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.204"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageButton_upload_icon"
         app:layout_constraintTop_toBottomOf="@+id/imageButton_upload_icon"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.5" />
 
     <Button
         android:id="@+id/button_cancel_edit_account_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
         android:text="取消"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
-        app:layout_constraintStart_toEndOf="@+id/button_confirm_edit_account_info"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_icon_added"
         app:layout_constraintTop_toBottomOf="@+id/imageButton_upload_icon"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias=".5" />
 
     <ImageView
         android:id="@+id/imageView_icon_added"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_cancel_edit_account_info"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.524"
+        app:layout_constraintEnd_toEndOf="@+id/textView22"
         app:layout_constraintStart_toEndOf="@+id/imageButton_upload_icon"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_day"
-        app:layout_constraintVertical_bias="0.423">
+        app:layout_constraintTop_toTopOf="@+id/imageButton_upload_icon">
 
     </ImageView>
 </androidx.constraintlayout.widget.ConstraintLayout>

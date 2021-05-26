@@ -19,13 +19,13 @@ public class DailyBudget extends Budget {
         super(id, amount, date, balance, acccountId);
     }
 
-    public int getYear() {
-        return getDate().getYear();
+    public int getYear() {//实际年份
+        return getDate().getYear()+1900;
     }
 
-    public void setYear(int year) {
+    public void setYear(int year) {//参数是现实年份
         Date date = getDate();
-        date.setYear(year);
+        date.setYear(year-1900);
         setDate(date);
     }
 
@@ -42,7 +42,7 @@ public class DailyBudget extends Budget {
     }
 
     public int getDay() {
-        return getDate().getDay();
+        return getDate().getDate();
     }
 
     public void setDay(int day) {

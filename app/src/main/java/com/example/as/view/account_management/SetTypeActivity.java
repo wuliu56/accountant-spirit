@@ -7,10 +7,13 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -22,13 +25,17 @@ import com.example.as.service.AccountManager;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SetTypeActivity extends Activity {
     private AccountManager am = null;
     private TypeList typeList = null;
     private String curCategory = null;
     private FragmentManager fm = null;
+    private ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
+    private int curPosition = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +50,7 @@ public class SetTypeActivity extends Activity {
 
         //初始化需要的数据
         ArrayList<String> categoryList = new ArrayList<String>();//所有大类的数组
+        ArrayList<Map<String,String>> categoryItemList = new ArrayList<Map<String,String>>();
 
         categoryList.add("收入");
         categoryList.add("购物");
@@ -55,9 +63,30 @@ public class SetTypeActivity extends Activity {
         categoryList.add("投资");
         categoryList.add("其他");
 
+        for(int i = 0; i < categoryList.size(); i++){
+            HashMap<String, String> map = new HashMap<String,String>();
+            map.put("category", categoryList.get(i));
+            categoryItemList.add(map);
+        }
+
         //为listView配置适配器
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_choose_category, categoryList);
         ListView listView = (ListView) findViewById(R.id.listView_choose_category);
+        SimpleAdapter adapter = new SimpleAdapter(this, categoryItemList, R.layout.list_choose_category,
+                new String[]{"category"}, new int[]{R.id.textView_choose_category}){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView tv_category = (TextView) view.findViewById(R.id.textView_choose_category);
+
+                if(position == curPosition){
+                    tv_category.setEnabled(true);
+                }
+                else{
+                    tv_category.setEnabled(false);
+                }
+                return view;
+            }
+        };
         listView.setAdapter(adapter);
 
         //配置fragment
@@ -70,6 +99,8 @@ public class SetTypeActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 curCategory = categoryList.get(position);
                 addFragment(R.id.fl_set_type, new SetTypeFragment());
+                curPosition = position;
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -83,10 +114,21 @@ public class SetTypeActivity extends Activity {
     }
 
     private void addFragment(int layoutID, Fragment fragment) {
+        List<Fragment> fragments = getFragments();
+        for (Fragment f : fragments) {
+            if (!f.equals(fragment) && !f.isHidden()) {
+                fm.beginTransaction().hide(f).commit();
+            }
+        }
         if (fragment.isAdded()) {
             fm.beginTransaction().show(fragment).commit();
         } else {
+            fragmentList.add(fragment);
             fm.beginTransaction().add(layoutID, fragment).commit();
         }
+    }
+
+    private ArrayList<Fragment> getFragments(){
+        return this.fragmentList;
     }
 }

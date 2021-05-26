@@ -19,6 +19,7 @@ public class DailyBill {
 
 
     public void setDailyBillArray(ArrayList<Bill> dailyBillArray) {
+        if(dailyBillArray.size() == 0)return;
         this.dailyBillArray = dailyBillArray;
         double tempAmount = 0;
         for(int i = 0;i < dailyBillArray.size();i++){

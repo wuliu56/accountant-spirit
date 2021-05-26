@@ -18,7 +18,7 @@ public class BillSearcher {
     public DailyBill queryDailyBill(Date date){
         DailyBill tempdailybill=new DailyBill();
         Bill tempbill=new Bill();
-        ArrayList<Bill> temparray =billdaoimpl.findByDate(date);
+        ArrayList<Bill> temparray =billdaoimpl.findByDate(date, accountId);
         ArrayList<Bill> target=new ArrayList<Bill>();
         Iterator<Bill> it=temparray.iterator();
         while(it.hasNext()){
@@ -35,7 +35,7 @@ public class BillSearcher {
     public ArrayList<Bill> queryBillsByType(Type type){
         Integer typeId=type.getId();
         Bill tempbill=new Bill();
-        ArrayList<Bill> temparray =billdaoimpl.findByType(typeId);
+        ArrayList<Bill> temparray =billdaoimpl.findByType(typeId, accountId);
         ArrayList<Bill> target=new ArrayList<Bill>();
         Iterator<Bill> it=temparray.iterator();
         while(it.hasNext()){

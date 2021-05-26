@@ -14,6 +14,8 @@ import com.example.as.entity.Type;
 import com.example.as.entity.Wallet;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class BillDaoImpl implements BillDao {
@@ -59,11 +61,14 @@ public class BillDaoImpl implements BillDao {
 
 
     @Override
-    public ArrayList<Bill> findByDate(Date date) {
-        ArrayList<Bill> list = null;
+    public ArrayList<Bill> findByDate(Date date,String accountId) {
+        ArrayList<Bill> list = new ArrayList<Bill>();
+        int year_out = date.getYear();
+        int month_out = date.getMonth();
+        int day_out = date.getDate();//要找的日期
         SQLiteDatabase db= billDBOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from tb_bill where date=?",new String[]{String.valueOf(date)});
+            Cursor cursor = db.rawQuery("select * from tb_bill where accountId=?",new String[]{accountId});
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
@@ -71,12 +76,18 @@ public class BillDaoImpl implements BillDao {
                 int wid = cursor.getInt(cursor.getColumnIndex("walletId"));
                 int tid=cursor.getInt(cursor.getColumnIndex("typeId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
-                String ddate=cursor.getString(cursor.getColumnIndex("date"));
+                String dateString =cursor.getString(cursor.getColumnIndex("date"));
+                Date date_in = Date.valueOf(dateString);
 
-                Type ttype = typeDaoImpl.findByTypeId(tid, accountid);
-                Wallet wwallet = walletDaoImpl.findByWalletId(wid, accountid);
-                Bill bill = new Bill(bid, aamount, Date.valueOf(ddate), ttype, wwallet, accountid);
-                list.add(bill);
+                int year_in = date.getYear();
+                int month_in = date.getMonth();
+                int day_in = date.getDate();//数据库内的日期
+                if(year_in == year_out&&month_in == month_out&&day_in == day_out) {
+                    Type ttype = typeDaoImpl.findByTypeId(tid, accountid);
+                    Wallet wwallet = walletDaoImpl.findByWalletId(wid, accountid);
+                    Bill bill = new Bill(bid, aamount, date_in, ttype, wwallet, accountid);
+                    list.add(bill);
+                }
             }
             cursor.close();
             db.close();
@@ -85,11 +96,11 @@ public class BillDaoImpl implements BillDao {
     }
 
     @Override
-    public ArrayList<Bill> findByType(int typeId) {
-        ArrayList<Bill> list = null;
+    public ArrayList<Bill> findByType(int typeId, String accountId) {
+        ArrayList<Bill> list = new ArrayList<Bill>();
         SQLiteDatabase db= billDBOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from tb_bill where typeId=?",new String[]{String.valueOf(typeId)});
+            Cursor cursor = db.rawQuery("select * from tb_bill where typeId=? and accountId=?",new String[]{String.valueOf(typeId), accountId});
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
@@ -106,13 +117,14 @@ public class BillDaoImpl implements BillDao {
             }
             cursor.close();
             db.close();
+            return list;
         }
-        return list;
+        return null;
     }
 
     @Override
     public ArrayList<Bill> findAll(String accountId) {
-        ArrayList<Bill> list = null;
+        ArrayList<Bill> list = new ArrayList<Bill>();
         SQLiteDatabase db= billDBOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_bill where accountId=?",new String[]{accountId});
@@ -132,7 +144,8 @@ public class BillDaoImpl implements BillDao {
             }
             cursor.close();
             db.close();
+            return list;
         }
-        return list;
+       return null;
     }
 }

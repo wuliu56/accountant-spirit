@@ -30,7 +30,7 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
         values.put("balance",budget.getBalance());
         values.put("year",budget.getYear());
         values.put("month",budget.getMonth());
-        values.put("day",budget.getDay());
+        values.put("day",String.valueOf(budget.getDay()));
         dbOpenHelper.getWritableDatabase().insert("tb_budget",null,values);
         dbOpenHelper.getWritableDatabase().close();
         return true;
@@ -82,7 +82,7 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
                 int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
                 int dday=cursor.getInt(cursor.getColumnIndex("day"));
 
-                Date date = new Date(yyear, mmonth-1, dday);
+                Date date = new Date(yyear-1900, mmonth-1, dday);
                 budget = new DailyBudget(buid, aamount, date, bbalance, accountid);
             }
             cursor.close();
@@ -93,7 +93,7 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
 
     @Override
     public ArrayList<DailyBudget> findByAccountId(String id) {
-        ArrayList<DailyBudget> list = null;
+        ArrayList<DailyBudget> list = new ArrayList<DailyBudget>();
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_budget where accountId=?", new String[]{id});
@@ -108,24 +108,30 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
                 int dday=cursor.getInt(cursor.getColumnIndex("day"));
 
                 DailyBudget budget=new DailyBudget();
-                Date date = new Date(yyear, mmonth-1, dday);
+                Date date = new Date(yyear-1900, mmonth-1, dday);
                 budget = new DailyBudget(buid, aamount, date, bbalance,accountid);
                 list.add(budget);
             }
             cursor.close();
             db.close();
+            return list;
         }
-        return list;
+        return null;
     }
 
     @Override
-    public DailyBudget findByDay(int year,int month,int day,String accountId) {
+    public DailyBudget findByDay(double amount, int year,int month,int day,String accountId) {
         DailyBudget budget=null;
+        System.out.println(year+" "+month+" "+day+" "+accountId);
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from tb_budget where year=? and month=? and day=? and accountId=?",new String[]{String.valueOf(year),String.valueOf(month),String.valueOf(day),accountId});
+            System.out.println("进入if");
+
+            Cursor cursor = db.rawQuery("select * from tb_budget where amount=?",
+                   new String[]{String.valueOf(amount)});
 
             while (cursor.moveToNext()) {
+                System.out.println("进入while");
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 int buid = cursor.getInt(cursor.getColumnIndex("budgetId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
@@ -134,7 +140,7 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
                 int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
                 int dday=cursor.getInt(cursor.getColumnIndex("day"));
 
-                Date date = new Date(yyear, mmonth-1, dday);
+                Date date = new Date(yyear-1900, mmonth-1, dday);
                 budget = new DailyBudget(buid, aamount, date, bbalance, accountid);
             }
             cursor.close();
@@ -160,13 +166,14 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
                 int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
                 int dday=cursor.getInt(cursor.getColumnIndex("day"));
 
-                Date date = new Date(yyear, mmonth-1, dday);
+                Date date = new Date(yyear-1900, mmonth-1, dday);
                 budget = new DailyBudget(buid, aamount, date, bbalance, accountid);
                 dailybudgetarray.add(budget);
             }
             cursor.close();
             db.close();
+            return dailybudgetarray;
         }
-        return dailybudgetarray;
+       return null;
     }
 }

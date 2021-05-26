@@ -83,7 +83,7 @@ public class AccountManager {
             for(int i = 0; i < typeNameList.size(); i++){
                 String[] typeNameArr = typeNameList.get(i);
                 for(int j = 1; j < typeNameArr.length; j++){
-                    newType(new Type(typeNameArr[j], typeNameArr[0], accountId));
+                    typedaoimpl.insert(new Type(typeNameArr[j], typeNameArr[0], accountId));
                 }
             }
             return true;

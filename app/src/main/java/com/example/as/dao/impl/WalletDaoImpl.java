@@ -109,8 +109,9 @@ public class WalletDaoImpl implements WalletDao {
             }
             cursor.close();
             db.close();
+            return list;
         }
-        return list;
+        return null;
     }
 
 }

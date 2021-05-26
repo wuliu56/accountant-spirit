@@ -103,7 +103,7 @@ public class EditAccountInfoActivity extends Activity implements View.OnClickLis
                 rg.check(R.id.radioButton_female);
 
             Date date = ai.getBirthday();
-            spinner_year.setSelection(date.getYear()-1900);
+            spinner_year.setSelection(date.getYear());
             spinner_month.setSelection(date.getMonth());
             spinner_day.setSelection(date.getDate()-1);
 
@@ -167,12 +167,12 @@ public class EditAccountInfoActivity extends Activity implements View.OnClickLis
                 int year = Integer.parseInt(spinner_year.getSelectedItem().toString());
                 int month = Integer.parseInt(spinner_month.getSelectedItem().toString());
                 int day = Integer.parseInt(spinner_day.getSelectedItem().toString());
-                date = new Date(year,month-1,day);
+                date = new Date(year-1900,month-1,day);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 sdf.format(date);
 
                 //判断是否填写完整
-                if(nickname.length() == 0){
+                if(nickname.length() == 0 || icon_path.length() == 0){
                     Toast.makeText(getApplicationContext(), "请填写完整", Toast.LENGTH_SHORT).show();
                 }
                 else {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="50dp">
+
+    <TextView
+        android:id="@+id/textView_bill_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="类型"
+        app:layout_constraintStart_toStartOf="@+id/textView_bill_amount"
+        app:layout_constraintTop_toBottomOf="@+id/textView_bill_amount" />
+
+    <TextView
+        android:id="@+id/textView_bill_wallet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="钱包"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView_bill_type"
+        app:layout_constraintTop_toTopOf="@+id/textView_bill_type" />
+
+    <TextView
+        android:id="@+id/textView_bill_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="额度"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
+</androidx.constraintlayout.widget.ConstraintLayout>

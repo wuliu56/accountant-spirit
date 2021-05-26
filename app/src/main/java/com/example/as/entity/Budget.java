@@ -78,8 +78,8 @@ public class Budget {
 
     public void judgeIfOver(){
         if(balance < 0)
-            setIfOver(false);
-        else
             setIfOver(true);
+        else
+            setIfOver(false);
     }
 }

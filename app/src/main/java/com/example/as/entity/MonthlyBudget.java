@@ -24,7 +24,7 @@ public class MonthlyBudget extends Budget {
         setAmount(tempAmount);
         setBalance(tempBalance);
         Date date = getDate();
-        date.setYear(dailyBudgetArray.get(0).getYear());
+        date.setYear(dailyBudgetArray.get(0).getYear()-1900);
         date.setMonth(dailyBudgetArray.get(0).getMonth()-1);
         setDate(date);
         judgeIfOver();
@@ -43,7 +43,7 @@ public class MonthlyBudget extends Budget {
     }
 
     public int getYear() {
-        return getDate().getYear();
+        return getDate().getYear() + 1900;
     }
 
     public int getSize(){

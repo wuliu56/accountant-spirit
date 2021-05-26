@@ -41,8 +41,8 @@ public class TypeDaoImpl implements TypeDao {
 
     @Override
     public boolean updateType(String name,Type type) {
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_type set category=? where mame=? and typeId=?", new Object[]{type.getCategory(),name,type.getId()});
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_type set name=? where mame=? and typeId=?", new Object[]{type.getName(),name,type.getId()});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_type set category=? where name=? and typeId=?", new Object[]{type.getCategory(),name,type.getId()});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_type set name=? where name=? and typeId=?", new Object[]{type.getName(),name,type.getId()});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
@@ -91,7 +91,7 @@ public class TypeDaoImpl implements TypeDao {
 
     @Override
     public ArrayList<Type> findAll(String accountId) {
-        ArrayList<Type> list = null;
+        ArrayList<Type> list = new ArrayList<Type>();
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_type where accountId=?", new String[]{accountId});
@@ -107,13 +107,14 @@ public class TypeDaoImpl implements TypeDao {
             }
             cursor.close();
             db.close();
+            return list;
         }
-        return list;
+        return null;
     }
 
     @Override
     public ArrayList<Type> findByCategory(String category) {
-        ArrayList<Type> list = null;
+        ArrayList<Type> list = new ArrayList<Type>();
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select * from tb_type where category=?", new String[]{category});
@@ -129,7 +130,8 @@ public class TypeDaoImpl implements TypeDao {
             }
             cursor.close();
             db.close();
+            return list;
         }
-        return list;
+        return null;
     }
 }

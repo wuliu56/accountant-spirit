@@ -20,10 +20,17 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"></ListView>
 
-        <FrameLayout
-            android:id="@+id/fl_set_type"
+        <LinearLayout
+            android:id="@+id/ll_set_type"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </FrameLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <FrameLayout
+                android:id="@+id/fl_set_type"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10">
+            </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,11 +28,10 @@
         <activity android:name=".view.account_management.SetCurrencyActivity"></activity>
         <activity android:name=".view.account_management.SetTypeActivity"></activity>
 
-        <activity android:name=".view.bill_record.ManageBudgetActivity"></activity>
-        <activity android:name=".view.bill_record.ManageBillActivity"></activity>
         <activity android:name=".view.query_statistics.QueryActivity"></activity>
 
         <activity android:name=".view.query_statistics.StatisticsActivity"></activity>
+
 
     </application>
 
