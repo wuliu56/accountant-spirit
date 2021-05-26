@@ -2,10 +2,8 @@ package com.example.as.service;
 
 import android.app.Activity;
 import android.content.Context;
-import android.widget.Toast;
 
 import com.example.as.R;
-import com.example.as.dao.WalletDao;
 import com.example.as.dao.impl.AccountInfoDaoImpl;
 import com.example.as.dao.impl.TypeDaoImpl;
 import com.example.as.dao.impl.UserDaoImpl;
@@ -21,7 +19,6 @@ import com.example.as.entity.WalletList;
 import com.example.as.view.account_management.AsApplication;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class AccountManager {
     private String accountId = AsApplication.getAccountId();

@@ -33,10 +33,10 @@ public class BillDaoImpl implements BillDao {
     public boolean insert(Bill bill) {
         ContentValues values=new ContentValues();
         values.put("accountId",bill.getAccountId());
-        values.put("billId",bill.getId());
-        values.put("walletId",bill.getWallet().getId());
-        values.put("typeId",bill.getType().getId());
-        values.put("amount",bill.getAmount());
+        values.put("billId",String.valueOf(bill.getId()));
+        values.put("walletId",String.valueOf(bill.getWallet().getId()));
+        values.put("typeId",String.valueOf(bill.getType().getId()));
+        values.put("amount",String.valueOf(bill.getAmount()));
         values.put("date",bill.getDate().toString());
         billDBOpenHelper.getWritableDatabase().insert("tb_bill",null,values);
         billDBOpenHelper.getWritableDatabase().close();
@@ -45,16 +45,16 @@ public class BillDaoImpl implements BillDao {
 
     @Override
     public boolean deleteByBillId(Integer billId) {
-        billDBOpenHelper.getWritableDatabase().execSQL("delete from tb_bill where billId=?", new Object[]{billId});
+        billDBOpenHelper.getWritableDatabase().execSQL("delete from tb_bill where billId=?", new String[]{String.valueOf(billId)});
         billDBOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
     public boolean update(Bill bill) {
-        billDBOpenHelper.getWritableDatabase().execSQL("update tb_bill set amount=? where billId=?", new Object[]{bill.getAmount(),bill.getId()});
-        billDBOpenHelper.getWritableDatabase().execSQL("update tb_bill set date=? where billId=?", new Object[]{bill.getDate().toString(),bill.getId()});
-        billDBOpenHelper.getWritableDatabase().execSQL("update tb_bill set typeId=? where billId=?", new Object[]{bill.getType().getId(),bill.getId()});
+        billDBOpenHelper.getWritableDatabase().execSQL("update tb_bill set amount=? where billId=?", new String[]{String.valueOf(bill.getAmount()), String.valueOf(bill.getId())});
+        billDBOpenHelper.getWritableDatabase().execSQL("update tb_bill set date=? where billId=?", new String[]{bill.getDate().toString(), String.valueOf(bill.getId())});
+        billDBOpenHelper.getWritableDatabase().execSQL("update tb_bill set typeId=? where billId=?", new String[]{String.valueOf(bill.getType().getId()), String.valueOf(bill.getId())});
         billDBOpenHelper.getWritableDatabase().close();
         return true;
     }

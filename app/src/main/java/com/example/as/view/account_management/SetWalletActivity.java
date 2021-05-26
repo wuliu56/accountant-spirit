@@ -95,12 +95,12 @@ public class SetWalletActivity extends Activity {
                 curPosition = position;
                 TextView tv_wallet_name = (TextView) view.findViewById(R.id.textView_wallet_name);
                 TextView tv_wallet_amount =(TextView) view.findViewById(R.id.textView_wallet_amount);
+                double curWalletAmount = walletAmountList.get(position);
                 String name_text = tv_wallet_name.getText().toString();
                 String name = name_text.substring(4);
                 String amount_text = tv_wallet_amount.getText().toString();
-                String amount = amount_text.substring(4,amount_text.length()-1);
                 et_name.setText(name);
-                et_amount.setText(amount);
+                et_amount.setText(String.valueOf(curWalletAmount));
                 listAdapter.notifyDataSetChanged();
             }
         });

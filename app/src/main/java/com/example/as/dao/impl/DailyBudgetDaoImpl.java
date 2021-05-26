@@ -26,10 +26,10 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
         ContentValues values=new ContentValues();
         values.put("accountId",budget.getAccountId());
         values.put("budgetId",budget.getId());
-        values.put("amount",budget.getAmount());
-        values.put("balance",budget.getBalance());
-        values.put("year",budget.getYear());
-        values.put("month",budget.getMonth());
+        values.put("amount",String.valueOf(budget.getAmount()));
+        values.put("balance",String.valueOf(budget.getBalance()));
+        values.put("year",String.valueOf(budget.getYear()));
+        values.put("month",String.valueOf(budget.getMonth()));
         values.put("day",String.valueOf(budget.getDay()));
         dbOpenHelper.getWritableDatabase().insert("tb_budget",null,values);
         dbOpenHelper.getWritableDatabase().close();
@@ -38,30 +38,30 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
 
     @Override
     public boolean deleteByDate(int year,int month,int day,String accountId) {
-        dbOpenHelper.getWritableDatabase().execSQL("delete from tb_budget where year=? and month=? and day=? and accountId=?", new Object[]{year,month,day,accountId});
+        dbOpenHelper.getWritableDatabase().execSQL("delete from tb_budget where year=? and month=? and day=? and accountId=?", new String[]{String.valueOf(year), String.valueOf(month), String.valueOf(day),accountId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
     public boolean updateAmount(int budgetId, double amount) {
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set amount=? where budgetId=?", new Object[]{amount,budgetId});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set amount=? where budgetId=?", new String[]{String.valueOf(amount), String.valueOf(budgetId)});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
     public boolean updateBalance(int budgetId, double balance) {
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set balance=? where budgetId=?", new Object[]{balance,budgetId});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set balance=? where budgetId=?", new String[]{String.valueOf(balance), String.valueOf(budgetId)});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
     public boolean updateDay(int budgetId,int year,int month,int day) {
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set year=?  where budgetId=?", new Object[]{year,budgetId});
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set month=?  where budgetId=?", new Object[]{month,budgetId});
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set day=?  where budgetId=?", new Object[]{day,budgetId});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set year=?  where budgetId=?", new String[]{String.valueOf(year), String.valueOf(budgetId)});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set month=?  where budgetId=?", new String[]{String.valueOf(month), String.valueOf(budgetId)});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set day=?  where budgetId=?", new String[]{String.valueOf(day), String.valueOf(budgetId)});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
@@ -120,18 +120,14 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
     }
 
     @Override
-    public DailyBudget findByDay(double amount, int year,int month,int day,String accountId) {
+    public DailyBudget findByDay(int year,int month,int day,String accountId) {
         DailyBudget budget=null;
-        System.out.println(year+" "+month+" "+day+" "+accountId);
         SQLiteDatabase db=dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            System.out.println("进入if");
 
-            Cursor cursor = db.rawQuery("select * from tb_budget where amount=?",
-                   new String[]{String.valueOf(amount)});
-
+            Cursor cursor = db.rawQuery("select * from tb_budget where year=? and month=? and day=? and accountId=?",
+                   new String[]{String.valueOf(year), String.valueOf(month), String.valueOf(day),accountId});
             while (cursor.moveToNext()) {
-                System.out.println("进入while");
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
                 int buid = cursor.getInt(cursor.getColumnIndex("budgetId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));

@@ -34,15 +34,15 @@ public class TypeDaoImpl implements TypeDao {
 
     @Override
     public boolean deleteByName(String name,String accountId) {
-        dbOpenHelper.getWritableDatabase().execSQL("delete from tb_type where name=? and accountId=?", new Object[]{name,accountId});
+        dbOpenHelper.getWritableDatabase().execSQL("delete from tb_type where name=? and accountId=?", new String[]{name,accountId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
     public boolean updateType(String name,Type type) {
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_type set category=? where name=? and typeId=?", new Object[]{type.getCategory(),name,type.getId()});
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_type set name=? where name=? and typeId=?", new Object[]{type.getName(),name,type.getId()});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_type set category=? where name=? and typeId=?", new String[]{type.getCategory(),name, String.valueOf(type.getId())});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_type set name=? where name=? and typeId=?", new String[]{type.getName(),name, String.valueOf(type.getId())});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }

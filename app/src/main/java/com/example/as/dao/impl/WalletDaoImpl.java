@@ -26,7 +26,7 @@ public class WalletDaoImpl implements WalletDao {
         values.put("accountId",wallet.getAccountId());
         values.put("walletId",wallet.getId());
         values.put("name",wallet.getName());
-        values.put("amount",wallet.getAmount());
+        values.put("amount",String.valueOf(wallet.getAmount()));
         dbOpenHelper.getWritableDatabase().insert("tb_wallet",null,values);
         dbOpenHelper.getWritableDatabase().close();
         return true;
@@ -34,7 +34,7 @@ public class WalletDaoImpl implements WalletDao {
 
     @Override
     public boolean deleteByName(String name,String accountId) {
-        dbOpenHelper.getWritableDatabase().execSQL("delete from tb_wallet where name=? and accountId=?"  , new Object[]{name,accountId});
+        dbOpenHelper.getWritableDatabase().execSQL("delete from tb_wallet where name=? and accountId=?"  , new String[]{name,accountId});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
@@ -42,8 +42,8 @@ public class WalletDaoImpl implements WalletDao {
     @Override
     public boolean updateWallet(String name, Wallet wallet) {
 
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set amount=? where name=? and walletId=?", new Object[]{wallet.getAmount(),name,wallet.getId()});
-        dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set name=? where name=? and walletId=?", new Object[]{wallet.getName(),name,wallet.getId()});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set amount=? where name=? and walletId=?", new String[]{String.valueOf(wallet.getAmount()),name, String.valueOf(wallet.getId())});
+        dbOpenHelper.getWritableDatabase().execSQL("update tb_wallet set name=? where name=? and walletId=?", new String[]{wallet.getName(),name, String.valueOf(wallet.getId())});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }

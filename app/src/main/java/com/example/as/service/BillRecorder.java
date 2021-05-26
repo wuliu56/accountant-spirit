@@ -70,7 +70,7 @@ public class BillRecorder {
 
     public DailyBudget queryDailyBudget(int year,int month, int day){
         System.out.println(year+" "+month+" "+day+" "+accountId);
-        return dailybudgetdaoimpl.findByDay(60.0, year,month,day,accountId);
+        return dailybudgetdaoimpl.findByDay(year,month,day,accountId);
     }
 
     public MonthlyBudget queryMonthlyBudget(int year, int month){

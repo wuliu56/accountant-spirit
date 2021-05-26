@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 
 
 import com.example.as.R;
+import com.example.as.entity.Bill;
 import com.example.as.entity.Currency;
 import com.example.as.entity.DailyBill;
 import com.example.as.entity.DailyBudget;
@@ -47,7 +48,7 @@ public class RecordBillFragment extends Fragment {
     private Type curType = null;                            //当前账单对应的类型
     private Calendar curCalendar = Calendar.getInstance();  //当前的日期（日历类）
     private DailyBudget curDailyBudget = null;              //当前的预算
-    private DailyBill curDailyBill = null;                  // 当前的日账单清单
+    private DailyBill curDailyBill = null;                  //当前的日账单清单
 
     private ListView listView = null;//列表视图的组件
     private SimpleAdapter adapter = null;                   //使用的适配器
@@ -93,8 +94,12 @@ public class RecordBillFragment extends Fragment {
                         curCalendar.get(Calendar.YEAR)+" "+(curCalendar.get(Calendar.MONTH)+1)+" "+curCalendar.get(Calendar.DAY_OF_MONTH),
                 Toast.LENGTH_SHORT).show();
 
+                //更新当前的标记
                 curDailyBudget = billRecorder.queryDailyBudget(curCalendar.get(Calendar.YEAR),
                         curCalendar.get(Calendar.MONTH)+1, curCalendar.get(Calendar.DAY_OF_MONTH) );
+                Date date = new Date(curCalendar.get(Calendar.YEAR),
+                        curCalendar.get(Calendar.MONTH)+1, curCalendar.get(Calendar.DAY_OF_MONTH));
+                curDailyBill = billRecorder.queryDailyBill(date);
 
                 showBudget();//显示当前预算信息
                 //showBill();
@@ -139,8 +144,46 @@ public class RecordBillFragment extends Fragment {
                 editDialog.show();
             }
         });
+
+        //设置“删除预算”按钮
+        Button btn_delete_budget = (Button) view.findViewById(R.id.button_delete_budget);
+        btn_delete_budget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(curDailyBudget == null)return;
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog.setMessage("是否确定删除？");
+                alertDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Date date = new Date(curCalendar.get(Calendar.YEAR)-1900, curCalendar.get(Calendar.MONTH), curCalendar.get(Calendar.DAY_OF_MONTH));
+                        billRecorder.deleteDailyBudget(date);
+                        curDailyBudget = null;
+                        showBudget();
+                    }
+                });
+                alertDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+
+        //设置“添加账单”按钮
+        Button btn_add_bill = (Button) view.findViewById(R.id.button_add_bill);
+        btn_add_bill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
         return view;
     }
+    //显示预算信息
     private void showBudget(){
         if(curDailyBudget == null){
             tv_budget_amount.setText("当前预算额：");
@@ -154,6 +197,7 @@ public class RecordBillFragment extends Fragment {
         }
     }
 
+    //显示账单信息
     private void showBill(){
         Date date = new Date(curCalendar.get(Calendar.YEAR)-1900, curCalendar.get(Calendar.MONTH),curCalendar.get(Calendar.DAY_OF_MONTH));
         curDailyBill = billRecorder.queryDailyBill(date);
