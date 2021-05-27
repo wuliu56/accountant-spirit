@@ -5,13 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="50dp">
+    android:minHeight="40dp">
 
     <TextView
         android:id="@+id/textView_bill_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:enabled="false"
+        android:drawableLeft="@drawable/leftmenu_item_selector"
+        android:textColor="@drawable/bill_textcolor_selector"
         android:text="类型"
         app:layout_constraintStart_toStartOf="@+id/textView_bill_amount"
         app:layout_constraintTop_toBottomOf="@+id/textView_bill_amount" />
@@ -21,6 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="钱包"
+        android:enabled="false"
+        android:textColor="@drawable/bill_textcolor_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView_bill_type"
         app:layout_constraintTop_toTopOf="@+id/textView_bill_type" />
@@ -30,11 +35,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="额度"
+        android:enabled="false"
+        android:textColor="@drawable/bill_textcolor_selector"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.18" />
 </androidx.constraintlayout.widget.ConstraintLayout>

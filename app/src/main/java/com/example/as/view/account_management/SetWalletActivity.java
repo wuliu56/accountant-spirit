@@ -93,6 +93,7 @@ public class SetWalletActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 curPosition = position;
+                btn_confirm.setEnabled(true);
                 TextView tv_wallet_name = (TextView) view.findViewById(R.id.textView_wallet_name);
                 TextView tv_wallet_amount =(TextView) view.findViewById(R.id.textView_wallet_amount);
                 double curWalletAmount = walletAmountList.get(position);
@@ -112,28 +113,44 @@ public class SetWalletActivity extends Activity {
         }
     });
 
+    btn_confirm.setEnabled(false);
     btn_confirm.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             //获取输入信息
             String in_name = et_name.getText().toString();
-            double in_amount = Double.parseDouble(et_amount.getText().toString());
+            int numberEqualName = 0;
+            for(int i = 0;i < walletList.getSize();i++){
+                if(walletList.getWalletByIndex(i).getName() == in_name){
+                    numberEqualName++;
+                }
+            }
 
-            //修改curWallet，更新数据库
-            curWallet = am.getWalletList().getWalletByIndex(curPosition);
-            String old_name = curWallet.getName();
-            curWallet.setName(in_name);
-            curWallet.setAmount(in_amount);
-            am.setWallet(old_name, curWallet);
+            //判断钱包名称是否合法
+            if(in_name.length() == 0 || et_amount.getText().toString().length() == 0){
+                Toast.makeText(AsApplication.getContext(),"请填写完整",Toast.LENGTH_SHORT).show();
+            }
+            else if(numberEqualName>0){
+                Toast.makeText(AsApplication.getContext(),"已经存在同名钱包",Toast.LENGTH_SHORT).show();
+            }
+            else {//此时输入合法，修改curWallet，更新数据库
+                double in_amount = Double.parseDouble(et_amount.getText().toString());
+                curWallet = am.getWalletList().getWalletByIndex(curPosition);
+                String old_name = curWallet.getName();
+                curWallet.setName(in_name);
+                curWallet.setAmount(in_amount);
+                am.setWallet(old_name, curWallet);
 
-            //修改数组和集合，更新界面中的listView
-            walletNameList.set(curPosition, in_name);
-            walletAmountList.set(curPosition, in_amount);
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("name", "钱包名：" + in_name);
-            map.put("amount", "资产额：" + in_amount + am.getCurrenctCurrency().getSymbol());
-            walletItemList.set(curPosition, map);
-            listAdapter.notifyDataSetChanged();
+                //修改数组和集合，更新界面中的listView
+                walletNameList.set(curPosition, in_name);
+                walletAmountList.set(curPosition, in_amount);
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("name", "钱包名：" + in_name);
+                map.put("amount", "资产额：" + in_amount + am.getCurrenctCurrency().getSymbol());
+                walletItemList.set(curPosition, map);
+                listAdapter.notifyDataSetChanged();
+                Toast.makeText(AsApplication.getContext(),"修改钱包成功",Toast.LENGTH_SHORT).show();
+            }
         }
     });
     }

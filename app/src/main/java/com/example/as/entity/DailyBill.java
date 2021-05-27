@@ -12,7 +12,7 @@ import java.util.Iterator;
 public class DailyBill {
 
     private ArrayList<Bill> dailyBillArray=new ArrayList<Bill>();
-    private Date date;
+    private Date date = new Date(System.currentTimeMillis());
     private double dailyAmount;
     private Bill cursor = null;
 

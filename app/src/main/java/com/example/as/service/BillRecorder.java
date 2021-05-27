@@ -26,6 +26,7 @@ public class BillRecorder {
 
     public void newDailyBudget(DailyBudget dailybudget){
         dailybudgetdaoimpl.insert(dailybudget);
+        updateDailyBudget(dailybudget.getDate());
     }
 
     public void deleteDailyBudget(Date date){
@@ -42,12 +43,13 @@ public class BillRecorder {
             tempdailybudget=it.next();
             if(tempdailybudget.getYear()==year&&tempdailybudget.getMonth()==month){
                 dailybudgetdaoimpl.deleteByDate(tempdailybudget.getYear(),tempdailybudget.getMonth(),tempdailybudget.getDay(),accountId);
-            }//笨方法
+            }
         }
     }
 
     public void setDailyBudget(DailyBudget dailyBudget){
         dailybudgetdaoimpl.updateAmount(dailyBudget.getId(),dailyBudget.getAmount());
+        updateDailyBudget(dailyBudget.getDate());
     }
 
     public void setMonthlyBudget(int year,int month,double amount){
@@ -69,8 +71,9 @@ public class BillRecorder {
     }
 
     public DailyBudget queryDailyBudget(int year,int month, int day){
-        System.out.println(year+" "+month+" "+day+" "+accountId);
-        return dailybudgetdaoimpl.findByDay(year,month,day,accountId);
+        DailyBudget dailyBudget = dailybudgetdaoimpl.findByDay(year,month,day,accountId);
+
+        return dailyBudget;
     }
 
     public MonthlyBudget queryMonthlyBudget(int year, int month){
@@ -88,6 +91,8 @@ public class BillRecorder {
 
     public void deleteBill(Integer id){
         billdaoimpl.deleteByBillId(id);
+        updateDailyBudget(billdaoimpl.findById(id).getDate());
+        updateWallet(billdaoimpl.findById(id));
     }
 
     public void setBill(Bill bill){
@@ -114,9 +119,11 @@ public class BillRecorder {
                 spending+=tempbill.getAmount();//这一天的总支出
             }
         }
-        DailyBudget currentdailybudget=queryDailyBudget(date.getYear(), date.getMonth()+1, date.getDate());
-        double amount=currentdailybudget.getAmount();
-        dailybudgetdaoimpl.updateBalance(currentdailybudget.getId(),amount-spending);
+        DailyBudget currentdailybudget=queryDailyBudget(date.getYear()+1900, date.getMonth()+1, date.getDate());
+        if(currentdailybudget != null) {
+            double amount = currentdailybudget.getAmount();
+            dailybudgetdaoimpl.updateBalance(currentdailybudget.getId(), amount - spending);
+        }
     }
 
     public void updateWallet(Bill bill){

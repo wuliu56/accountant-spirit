@@ -3,15 +3,18 @@ package com.example.as.view.account_management;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +40,7 @@ public class SetTypeFragment extends Fragment {
     private ArrayList<Map<String,Object>> typeItemList = new ArrayList<Map<String, Object>>();//种类信息的ArrayList
     private SimpleAdapter simpleAdapter = null;//ListView的适配器
     private AccountManager am = new AccountManager(AsApplication.getAccountId());
+    private ListView listView = null;
 
     @Nullable
     @Override
@@ -67,12 +71,16 @@ public class SetTypeFragment extends Fragment {
                 View view = super.getView(position, convertView, parent);
                 ImageButton ib_set_type = (ImageButton) view.findViewById(R.id.imageButton_edit_type);
                 ImageButton ib_delete_type = (ImageButton) view.findViewById(R.id.imageButton_delete_type);
+
+                //为一行中删除按钮设置监听器
                 ib_delete_type.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showDeleteDialogue(position);
                     }
                 });
+
+                //为一行中设置按钮设置监听器
                 ib_set_type.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -84,7 +92,7 @@ public class SetTypeFragment extends Fragment {
         };
 
         //设置ListView
-        ListView listView = (ListView) view.findViewById(R.id.listView_set_type);
+        listView = (ListView) view.findViewById(R.id.listView_set_type);
         listView.setAdapter(simpleAdapter);
 
         return view;
@@ -124,7 +132,7 @@ public class SetTypeFragment extends Fragment {
     //编辑按钮的点击事件
     private void showEditDialogue(int position){
         final EditText et_edit_type = new EditText(getActivity());
-        et_edit_type.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        et_edit_type.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         AlertDialog.Builder editDialogue = new AlertDialog.Builder(getActivity());
         editDialogue.setTitle("修改类型名称");
         editDialogue.setView(et_edit_type);
@@ -135,16 +143,21 @@ public class SetTypeFragment extends Fragment {
                         //修改名字数组和map数组中的对应内容，修改数据库中的type表，并刷新ListView
                         String oldTypeName = typeNameList.get(position);
                         String newTypeName = et_edit_type.getText().toString();
-                        Type type = typeList.get(position);
-                        type.setName(newTypeName);
-                        typeList.set(position, type);
-                        typeNameList.set(position, newTypeName);
-                        Map<String, Object> map = typeItemList.get(position);
-                        map.remove("name");
-                        map.put("name", newTypeName);
-                        typeItemList.set(position, map);
-                        am.setType(oldTypeName, type);
-                        simpleAdapter.notifyDataSetChanged();
+                        if(newTypeName.length() != 0) {
+                            Type type = typeList.get(position);
+                            type.setName(newTypeName);
+                            typeList.set(position, type);
+                            typeNameList.set(position, newTypeName);
+                            Map<String, Object> map = typeItemList.get(position);
+                            map.remove("name");
+                            map.put("name", newTypeName);
+                            typeItemList.set(position, map);
+                            am.setType(oldTypeName, type);
+                            simpleAdapter.notifyDataSetChanged();
+                            Toast.makeText(AsApplication.getContext(),"修改类型成功",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(AsApplication.getContext(),"类型名称不能为空",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
         editDialogue.setNegativeButton("取消", new DialogInterface.OnClickListener() {

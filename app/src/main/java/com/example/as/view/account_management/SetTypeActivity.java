@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,7 +99,8 @@ public class SetTypeActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 curCategory = categoryList.get(position);
-                addFragment(R.id.fl_set_type, new SetTypeFragment());
+                SetTypeFragment setTypeFragment = new SetTypeFragment();
+                addFragment(R.id.fl_set_type, setTypeFragment);
                 curPosition = position;
                 adapter.notifyDataSetChanged();
             }

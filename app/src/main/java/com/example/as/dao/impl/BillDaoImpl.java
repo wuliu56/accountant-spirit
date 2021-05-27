@@ -33,9 +33,9 @@ public class BillDaoImpl implements BillDao {
     public boolean insert(Bill bill) {
         ContentValues values=new ContentValues();
         values.put("accountId",bill.getAccountId());
-        values.put("billId",String.valueOf(bill.getId()));
-        values.put("walletId",String.valueOf(bill.getWallet().getId()));
-        values.put("typeId",String.valueOf(bill.getType().getId()));
+        values.put("billId",bill.getId());
+        values.put("walletId",bill.getWallet().getId());
+        values.put("typeId",bill.getType().getId());
         values.put("amount",String.valueOf(bill.getAmount()));
         values.put("date",bill.getDate().toString());
         billDBOpenHelper.getWritableDatabase().insert("tb_bill",null,values);
@@ -59,6 +59,34 @@ public class BillDaoImpl implements BillDao {
         return true;
     }
 
+    @Override
+    public Bill findById(int id) {
+        Bill bill=null;
+        SQLiteDatabase db=billDBOpenHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from tb_bill where billId",new String[]{String.valueOf(id)});
+
+            while (cursor.moveToNext()) {
+                String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
+                int bid = cursor.getInt(cursor.getColumnIndex("billId"));
+                int wid = cursor.getInt(cursor.getColumnIndex("walletId"));
+                int tid=cursor.getInt(cursor.getColumnIndex("typeId"));
+                double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
+                String ddate=cursor.getString(cursor.getColumnIndex("date"));
+                int yyear=cursor.getInt(cursor.getColumnIndex("year"));
+                int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
+                int dday=cursor.getInt(cursor.getColumnIndex("day"));
+
+                Type ttype = typeDaoImpl.findByTypeId(tid, accountid);
+                Wallet wwallet = walletDaoImpl.findByWalletId(wid, accountid);
+                bill=new Bill(bid, aamount, Date.valueOf(ddate), ttype, wwallet, accountid);
+            }
+            cursor.close();
+            db.close();
+        }
+        return bill;
+    }
+
 
     @Override
     public ArrayList<Bill> findByDate(Date date,String accountId) {
@@ -79,9 +107,9 @@ public class BillDaoImpl implements BillDao {
                 String dateString =cursor.getString(cursor.getColumnIndex("date"));
                 Date date_in = Date.valueOf(dateString);
 
-                int year_in = date.getYear();
-                int month_in = date.getMonth();
-                int day_in = date.getDate();//数据库内的日期
+                int year_in = date_in.getYear();
+                int month_in = date_in.getMonth();
+                int day_in = date_in.getDate();//数据库内的日期
                 if(year_in == year_out&&month_in == month_out&&day_in == day_out) {
                     Type ttype = typeDaoImpl.findByTypeId(tid, accountid);
                     Wallet wwallet = walletDaoImpl.findByWalletId(wid, accountid);

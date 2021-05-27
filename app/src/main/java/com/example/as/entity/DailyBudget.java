@@ -12,11 +12,13 @@ public class DailyBudget extends Budget {
     //用于向数据库插入时构造
     public DailyBudget(double amount, Date date, double balance, String acccountId){
         super(amount, date, balance, acccountId);
+        judgeIfOver();
     }
 
     //用于从数据库查询时构造
     public DailyBudget(Integer id, double amount, Date date, double balance, String acccountId){
         super(id, amount, date, balance, acccountId);
+        judgeIfOver();
     }
 
     public int getYear() {//实际年份
