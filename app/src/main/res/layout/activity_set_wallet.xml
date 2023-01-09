@@ -36,9 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="修改"
+        app:layout_constraintStart_toEndOf="@+id/button_add_wallet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_cancel_set_wallet"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_wallet_amount" />
 
     <Button
@@ -84,4 +84,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/editText_wallet_name"
         app:layout_constraintTop_toBottomOf="@+id/editText_wallet_name" />
+
+    <Button
+        android:id="@+id/button_add_wallet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_confirm_set_wallet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_wallet_amount" />
 </androidx.constraintlayout.widget.ConstraintLayout>

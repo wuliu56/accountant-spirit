@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <CalendarView
         android:id="@+id/calendarView"
@@ -113,7 +114,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:gravity="center"
-        android:textColor="@android:color/holo_green_light"
+        android:textColor="@color/orange"
         android:text="是否已超支："
         android:background="@color/gray"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"

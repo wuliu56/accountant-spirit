@@ -10,9 +10,9 @@ import java.util.List;
 public interface DailyBudgetDao {
     public boolean insert(DailyBudget budget);
     public boolean deleteByDate(int year,int month,int day,String accountId);
-    public boolean updateAmount(int budgetId,double amount);
-    public boolean updateBalance(int budgetId,double balance);
-    public boolean updateDay(int budgetId, int year,int month,int day);
+    public boolean updateAmount(Integer budgetId,double amount);
+    public boolean updateBalance(Integer budgetId,double balance);
+    public boolean updateDay(Integer budgetId, int year,int month,int day);
     public ArrayList<DailyBudget> findByAccountId(String accountId);
     public DailyBudget findByDay(int year,int month,int day,String accountId);
     public DailyBudget findByBudgetId(Integer budgetId, String accountId);

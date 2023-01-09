@@ -44,21 +44,21 @@ public class DailyBudgetDaoImpl implements DailyBudgetDao {
     }
 
     @Override
-    public boolean updateAmount(int budgetId, double amount) {
+    public boolean updateAmount(Integer budgetId, double amount) {
         dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set amount=? where budgetId=?", new String[]{String.valueOf(amount), String.valueOf(budgetId)});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
-    public boolean updateBalance(int budgetId, double balance) {
+    public boolean updateBalance(Integer budgetId, double balance) {
         dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set balance=? where budgetId=?", new String[]{String.valueOf(balance), String.valueOf(budgetId)});
         dbOpenHelper.getWritableDatabase().close();
         return true;
     }
 
     @Override
-    public boolean updateDay(int budgetId,int year,int month,int day) {
+    public boolean updateDay(Integer budgetId,int year,int month,int day) {
         dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set year=?  where budgetId=?", new String[]{String.valueOf(year), String.valueOf(budgetId)});
         dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set month=?  where budgetId=?", new String[]{String.valueOf(month), String.valueOf(budgetId)});
         dbOpenHelper.getWritableDatabase().execSQL("update tb_budget set day=?  where budgetId=?", new String[]{String.valueOf(day), String.valueOf(budgetId)});

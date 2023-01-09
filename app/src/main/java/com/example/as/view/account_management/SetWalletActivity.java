@@ -1,12 +1,16 @@
 package com.example.as.view.account_management;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -31,6 +35,13 @@ public class SetWalletActivity extends Activity {
     private WalletList walletList = null;
     private int curPosition = 0;
     private Wallet curWallet = null;
+    private SimpleAdapter listAdapter = null;
+
+    //配置ListView
+    List<Map<String, Object>> walletItemList = new ArrayList<Map<String, Object>>();
+    ArrayList<String> walletNameList = new ArrayList<String>();
+    ArrayList<Double> walletAmountList = new ArrayList<Double>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,15 +59,9 @@ public class SetWalletActivity extends Activity {
         am = new AccountManager(accountId);
         walletList = am.getWalletList();
 
-        //配置ListView
-        List<Map<String, Object>> walletItemList = new ArrayList<Map<String, Object>>();
-        ArrayList<String> walletNameList = new ArrayList<String>();
-        ArrayList<Double> walletAmountList = new ArrayList<Double>();
-        Wallet wallet = null;
-
         for(int i = 0;i < walletList.getSize();i++){
             //先后设置walletNameList,walletAmountList,walletItemList的内容
-            wallet = walletList.getWalletByIndex(i);
+            Wallet wallet = walletList.getWalletByIndex(i);
             String name = wallet.getName();
             Double amount = wallet.getAmount();
             walletNameList.add(name);
@@ -66,7 +71,7 @@ public class SetWalletActivity extends Activity {
             map.put("amount", "资产额："+amount+am.getCurrenctCurrency().getSymbol());
             walletItemList.add(map);
         }
-        SimpleAdapter listAdapter = new SimpleAdapter(this, walletItemList, R.layout.list_set_wallet,
+        listAdapter = new SimpleAdapter(this, walletItemList, R.layout.list_set_wallet,
                 new String[]{"name", "amount"}, new int[]{R.id.textView_wallet_name, R.id.textView_wallet_amount}){
             @Override
             //重写getView方法实现点击的效果
@@ -83,6 +88,43 @@ public class SetWalletActivity extends Activity {
                     tv_wallet_name.setEnabled(false);
                     tv_wallet_amount.setEnabled(false);
                 }
+                ImageView imageButton = (ImageView) view.findViewById(R.id.imageView_delete_wallet);
+                imageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //删除按钮
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(SetWalletActivity.this);
+                        dialog.setTitle("删除钱包").setMessage("确定要删除钱包吗？");
+                        dialog.setPositiveButton("确定",new DialogInterface.OnClickListener(){
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(am.getWalletList().getSize() == 0)
+                                {
+                                    curPosition=0;
+                                }
+                                else {
+                                    curWallet = am.getWalletList().getWalletByIndex(curPosition);
+                                    if(curWallet!=null) {
+                                        am.deleteWallet(curWallet.getName());
+                                        walletItemList.remove(curPosition);
+                                        listAdapter.notifyDataSetChanged();
+                                        curPosition -= 1;
+                                        Toast.makeText(getApplicationContext(), "删除钱包成功", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        });
+                        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        dialog.show();
+                    }
+                });
                 return view;
             }
         };
@@ -150,6 +192,41 @@ public class SetWalletActivity extends Activity {
                 walletItemList.set(curPosition, map);
                 listAdapter.notifyDataSetChanged();
                 Toast.makeText(AsApplication.getContext(),"修改钱包成功",Toast.LENGTH_SHORT).show();
+            }
+        }
+    });
+
+    Button btn_add_wallet = (Button) findViewById(R.id.button_add_wallet);
+    btn_add_wallet.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String in_name = et_name.getText().toString();
+            int numberEqualName = 0;
+            for(int i = 0;i < walletList.getSize();i++){
+                if(walletList.getWalletByIndex(i).getName() == in_name){
+                    numberEqualName++;
+                }
+            }
+
+            //判断钱包名称是否合法
+            if(in_name.length() == 0 || et_amount.getText().toString().length() == 0){
+                Toast.makeText(AsApplication.getContext(),"请填写完整",Toast.LENGTH_SHORT).show();
+            }
+            else if(numberEqualName>0){
+                Toast.makeText(AsApplication.getContext(),"已经存在同名钱包",Toast.LENGTH_SHORT).show();
+            }
+            else {//此时输入合法，修改curWallet，更新数据库
+                double in_amount = Double.parseDouble(et_amount.getText().toString());
+                curWallet = new Wallet(in_name, in_amount, AsApplication.getAccountId());
+                am.newWallet(curWallet);
+
+                //修改数组和集合，更新界面中的listView
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("name", "钱包名：" + in_name);
+                map.put("amount", "资产额：" + in_amount + am.getCurrenctCurrency().getSymbol());
+                walletItemList.add(map);
+                listAdapter.notifyDataSetChanged();
+                Toast.makeText(AsApplication.getContext(),"添加钱包成功",Toast.LENGTH_SHORT).show();
             }
         }
     });

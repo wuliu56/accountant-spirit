@@ -106,7 +106,6 @@ public class SetBillActivity extends Activity {
                 ArrayAdapter<String> adapter_name = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,typeNameList);
                 adapter_name.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_type_name.setAdapter(adapter_name);
-                spinner_type_name.setSelection(0);
             }
 
             @Override
@@ -124,7 +123,7 @@ public class SetBillActivity extends Activity {
             et_bill_amount.setText(String.valueOf(amount));
 
             for(int i=0;i<walletList.getSize();i++) {
-                if (walletList.getWalletByIndex(i).getName() == walletName){
+                if (walletList.getWalletByIndex(i).getName().equals(walletName)){
                     spinner_wallet_name.setSelection(i);
                     break;
                 }
@@ -158,7 +157,7 @@ public class SetBillActivity extends Activity {
                     Intent intent = getIntent();
                     Bundle bundle_output = new Bundle();
 
-                    //包装输入的数据
+                    //包装输出的数据
                     double amount = Double.parseDouble(et_bill_amount.getText().toString());
                     String typeCategory = spinner_type_category.getSelectedItem().toString();
                     String typeName = spinner_type_name.getSelectedItem().toString();

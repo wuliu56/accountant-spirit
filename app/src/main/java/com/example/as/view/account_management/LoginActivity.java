@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                     //登录成功时更新SharedPreferences中最近登录账户的信息，并转入主界面
                     else switch(am.logIn(in_username,in_password)){
                         case 1:{
-                            Toast.makeText(getApplicationContext(), "用户名错误", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "用户名不存在", Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case 2: {

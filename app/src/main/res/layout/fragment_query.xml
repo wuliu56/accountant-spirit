@@ -5,40 +5,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="650dp"
-    android:background="#F4F2F2">
+    android:src="@mipmap/cool_background">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="查询界面"
+    <Button
+        android:id="@+id/button_query"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:text="查询"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.625"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_query"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="查询"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.155" />
-
-    <Button
-        android:background="@color/white"
         android:id="@+id/button_statistics"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
         android:text="统计"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button_query"
+        app:layout_constraintStart_toStartOf="@+id/button_query"
         app:layout_constraintTop_toBottomOf="@+id/button_query"
         app:layout_constraintVertical_bias="0.287" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/button_query"
+        app:layout_constraintEnd_toStartOf="@+id/button_query"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button_query"
+        android:src="@mipmap/query" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/button_statistics"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/button_statistics"
+        android:src="@mipmap/statistics" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/button_statistics"
+        app:layout_constraintEnd_toEndOf="@+id/button_statistics"
+        app:layout_constraintTop_toTopOf="@+id/button_statistics"
+        android:src="@mipmap/right_arrow" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_query"
+        app:layout_constraintEnd_toEndOf="@+id/button_query"
+        app:layout_constraintTop_toTopOf="@+id/button_query"
+        app:layout_constraintVertical_bias="1.0"
+        android:src="@mipmap/right_arrow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -194,7 +194,7 @@ public class AccountManager {
     }
 
     public ArrayList<Type> queryTypeListByCategory(String category){
-        return typedaoimpl.findByCategory(category);
+        return typedaoimpl.findByCategory(category,accountId);
     }
 
     public TypeList getTypeList() { return typeList; }

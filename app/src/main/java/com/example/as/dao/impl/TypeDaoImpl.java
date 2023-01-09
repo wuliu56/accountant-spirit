@@ -56,7 +56,7 @@ public class TypeDaoImpl implements TypeDao {
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
-                int iid = cursor.getInt(cursor.getColumnIndex("typeId"));
+                Integer iid = cursor.getInt(cursor.getColumnIndex("typeId"));
                 String nname = cursor.getString(cursor.getColumnIndex("name"));
                 String ccategory=cursor.getString(cursor.getColumnIndex("category"));
 
@@ -113,11 +113,11 @@ public class TypeDaoImpl implements TypeDao {
     }
 
     @Override
-    public ArrayList<Type> findByCategory(String category) {
+    public ArrayList<Type> findByCategory(String category, String accountId) {
         ArrayList<Type> list = new ArrayList<Type>();
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from tb_type where category=?", new String[]{category});
+            Cursor cursor = db.rawQuery("select * from tb_type where category=? and accountId=?", new String[]{category,accountId});
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));

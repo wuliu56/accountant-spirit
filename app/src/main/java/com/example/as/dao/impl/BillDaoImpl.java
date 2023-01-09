@@ -34,8 +34,8 @@ public class BillDaoImpl implements BillDao {
         ContentValues values=new ContentValues();
         values.put("accountId",bill.getAccountId());
         values.put("billId",bill.getId());
-        values.put("walletId",bill.getWallet().getId());
-        values.put("typeId",bill.getType().getId());
+        values.put("walletId",String.valueOf(bill.getWallet().getId()));
+        values.put("typeId",String.valueOf(bill.getType().getId()));
         values.put("amount",String.valueOf(bill.getAmount()));
         values.put("date",bill.getDate().toString());
         billDBOpenHelper.getWritableDatabase().insert("tb_bill",null,values);
@@ -60,11 +60,11 @@ public class BillDaoImpl implements BillDao {
     }
 
     @Override
-    public Bill findById(int id) {
+    public Bill findById(Integer id) {
         Bill bill=null;
         SQLiteDatabase db=billDBOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from tb_bill where billId",new String[]{String.valueOf(id)});
+            Cursor cursor = db.rawQuery("select * from tb_bill where billId=?",new String[]{String.valueOf(id)});
 
             while (cursor.moveToNext()) {
                 String accountid = cursor.getString(cursor.getColumnIndex("accountId"));
@@ -73,9 +73,6 @@ public class BillDaoImpl implements BillDao {
                 int tid=cursor.getInt(cursor.getColumnIndex("typeId"));
                 double aamount=cursor.getDouble(cursor.getColumnIndex("amount"));
                 String ddate=cursor.getString(cursor.getColumnIndex("date"));
-                int yyear=cursor.getInt(cursor.getColumnIndex("year"));
-                int mmonth=cursor.getInt(cursor.getColumnIndex("month"));
-                int dday=cursor.getInt(cursor.getColumnIndex("day"));
 
                 Type ttype = typeDaoImpl.findByTypeId(tid, accountid);
                 Wallet wwallet = walletDaoImpl.findByWalletId(wid, accountid);
@@ -124,7 +121,7 @@ public class BillDaoImpl implements BillDao {
     }
 
     @Override
-    public ArrayList<Bill> findByType(int typeId, String accountId) {
+    public ArrayList<Bill> findByType(Integer typeId, String accountId) {
         ArrayList<Bill> list = new ArrayList<Bill>();
         SQLiteDatabase db= billDBOpenHelper.getWritableDatabase();
         if (db.isOpen()) {

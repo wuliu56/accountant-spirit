@@ -29,7 +29,7 @@ public class QueryFragment extends Fragment {
         public void onClick(View v) {
             Intent intent = null;
             if(v.getId()==R.id.button_query){
-                intent = new Intent(getActivity(),QueryActivity.class);
+                intent = new Intent(getActivity(),QueryByTypeActivity.class);
             }
             if(v.getId()==R.id.button_statistics){
                 intent = new Intent(getActivity(),StatisticsActivity.class);

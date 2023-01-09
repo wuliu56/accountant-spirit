@@ -12,10 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:enabled="false"
         android:drawableLeft="@drawable/leftmenu_item_selector"
-        android:textColor="@drawable/bill_textcolor_selector"
+        android:enabled="false"
         android:text="类型"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@drawable/bill_textcolor_selector"
         app:layout_constraintStart_toStartOf="@+id/textView_bill_amount"
         app:layout_constraintTop_toBottomOf="@+id/textView_bill_amount" />
 
@@ -23,8 +24,9 @@
         android:id="@+id/textView_bill_wallet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="钱包"
         android:enabled="false"
+        android:text="钱包"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@drawable/bill_textcolor_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView_bill_type"
@@ -44,4 +46,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.18" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

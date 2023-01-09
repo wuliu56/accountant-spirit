@@ -108,14 +108,19 @@ public class RecordBillFragment extends Fragment {
         bt_set_budget = (Button) view.findViewById(R.id.button_set_budget);
 
         bt_set_bill.setEnabled(false);//初始化按钮初始enabled值
-        bt_add_bill.setEnabled(false);
+        bt_add_bill.setEnabled(true);
         bt_delete_bill.setEnabled(false);
-        bt_set_budget.setEnabled(false);
+        bt_set_budget.setEnabled(true);
         bt_delete_budget.setEnabled(false);
 
         //获取日历组件并设置默认日期
         CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendarView);
         calendarView.setDate(curCalendar.getTimeInMillis());
+
+        Date date = new Date(curCalendar.get(Calendar.YEAR),
+                curCalendar.get(Calendar.MONTH)+1,curCalendar.get(Calendar.DAY_OF_MONTH));
+        curDailyBudget = billRecorder.queryDailyBudget(curCalendar.get(Calendar.YEAR),
+                curCalendar.get(Calendar.MONTH)+1,curCalendar.get(Calendar.DAY_OF_MONTH));
 
         //为listview配置适配器
         adapter = new SimpleAdapter(AsApplication.getContext(), billItemList,
@@ -142,12 +147,13 @@ public class RecordBillFragment extends Fragment {
         };
         listView.setAdapter(adapter);
 
+        showBill();
+        showBudget();
+
         //设置日历组件选择日期的监听器
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                bt_delete_budget.setEnabled(true);
-                bt_set_budget.setEnabled(true);
                 bt_add_bill.setEnabled(true);
 
                 curCalendar.set(Calendar.YEAR, year);
@@ -157,6 +163,11 @@ public class RecordBillFragment extends Fragment {
                 //更新当前的标记
                 curDailyBudget = billRecorder.queryDailyBudget(curCalendar.get(Calendar.YEAR),
                         curCalendar.get(Calendar.MONTH)+1, curCalendar.get(Calendar.DAY_OF_MONTH) );
+                if(curDailyBudget!=null)
+                    bt_delete_budget.setEnabled(true);
+                else
+                    bt_delete_budget.setEnabled(false);
+
                 Date date = new Date(curCalendar.get(Calendar.YEAR),
                         curCalendar.get(Calendar.MONTH)+1, curCalendar.get(Calendar.DAY_OF_MONTH));
                 curDailyBill = billRecorder.queryDailyBill(date);
@@ -164,8 +175,12 @@ public class RecordBillFragment extends Fragment {
                 if(curDailyBill.getSize() != 0){
                     if(curDailyBill.getSize() <= curPosition)
                         curPosition = 0;
-                    curWallet = curDailyBill.getBillByIndex(0).getWallet();
-                    curType = curDailyBill.getBillByIndex(0).getType();
+                    else {
+                        bt_set_bill.setEnabled(true);
+                        bt_delete_bill.setEnabled(false);
+                    }
+                    curWallet = curDailyBill.getBillByIndex(curPosition).getWallet();
+                    curType = curDailyBill.getBillByIndex(curPosition).getType();
                     bt_set_bill.setEnabled(true);
                     bt_delete_bill.setEnabled(true);
                 } else{
@@ -279,9 +294,18 @@ public class RecordBillFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SetBillActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("walletName", curWallet.getName());
-                bundle.putString("typeName", curType.getName());
-                bundle.putString("typeCategory", curType.getCategory());
+                String walletName = "";
+                String category = "";
+                String typeName = "";
+                if(curWallet != null)
+                    walletName = curWallet.getName();
+                bundle.putString("walletName", walletName);
+                if(curType != null){
+                    category = curType.getCategory();
+                    typeName = curType.getName();
+                }
+                bundle.putString("typeName", category);
+                bundle.putString("typeCategory", typeName);
                 bundle.putDouble("amount", curDailyBill.getBillByIndex(curPosition).getAmount());
                 intent.putExtras(bundle);
                 startActivityForResult(intent,0x12);
@@ -297,9 +321,8 @@ public class RecordBillFragment extends Fragment {
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Date date = new Date(curCalendar.get(Calendar.YEAR)-1900, curCalendar.get(Calendar.MONTH),curCalendar.get(Calendar.DAY_OF_MONTH));
-                        curDailyBill = billRecorder.queryDailyBill(date);
                         billRecorder.deleteBill(curDailyBill.getBillByIndex(curPosition).getId());
+                        Date date = new Date(curCalendar.get(Calendar.YEAR)-1900, curCalendar.get(Calendar.MONTH),curCalendar.get(Calendar.DAY_OF_MONTH));
                         curDailyBill = billRecorder.queryDailyBill(date);
                         if(curDailyBill.getSize() == 0){
                             curPosition = 0;
@@ -310,13 +333,16 @@ public class RecordBillFragment extends Fragment {
                             if(curPosition>0)
                                 curPosition -= 1;
                             else if(curPosition == 0)
-                                curPosition = 1;
+                                curPosition = 0;
                             curWallet = curDailyBill.getBillByIndex(curPosition).getWallet();
                             curType = curDailyBill.getBillByIndex(curPosition).getType();
-
-                            showBill();
-                            showBudget();
                         }
+
+                        curDailyBudget = billRecorder.queryDailyBudget(curCalendar.get(Calendar.YEAR), curCalendar.get(Calendar.MONTH)+1,
+                                curCalendar.get(Calendar.DAY_OF_MONTH));
+
+                        showBill();
+                        showBudget();
                     }
                 });
                 dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -343,6 +369,8 @@ public class RecordBillFragment extends Fragment {
             tv_budget_ifover.setTextColor(getResources().getColor(R.color.golden));
         }
         else {
+            bt_set_budget.setEnabled(true);
+            bt_delete_budget.setEnabled(true);
             String dailyBudgetAmount = String.valueOf(curDailyBudget.getAmount());
             tv_budget_amount.setText("当前预算额：" + dailyBudgetAmount + currency.getSymbol());
             curDailyBudget.judgeIfOver();
@@ -361,6 +389,17 @@ public class RecordBillFragment extends Fragment {
     private void showBill(){
         Date date = new Date(curCalendar.get(Calendar.YEAR)-1900, curCalendar.get(Calendar.MONTH),curCalendar.get(Calendar.DAY_OF_MONTH));
         curDailyBill = billRecorder.queryDailyBill(date);
+        if(curDailyBill.getSize()!=0){
+            bt_delete_bill.setEnabled(true);
+            bt_set_bill.setEnabled(true);
+            curWallet = curDailyBill.getBillByIndex(curPosition).getWallet();
+            curType = curDailyBill.getBillByIndex(curPosition).getType();
+        }
+        else{
+            bt_delete_bill.setEnabled(false);
+            bt_set_bill.setEnabled(false);
+        }
+
         //设置ListView的数据集
         billAmountList.clear();
         walletNameList.clear();
@@ -369,13 +408,17 @@ public class RecordBillFragment extends Fragment {
         for(int i = 0; i < curDailyBill.getSize(); i++) {
             double amount = curDailyBill.getBillByIndex(i).getAmount();
             String amountString = String.valueOf(amount);
-            String walletName = curDailyBill.getBillByIndex(i).getWallet().getName();
-            String typeName = curDailyBill.getBillByIndex(i).getType().getName();
+            String walletName = "";
+            String typeName = "";
+            if(curDailyBill.getBillByIndex(i).getWallet() != null)
+                 walletName = curDailyBill.getBillByIndex(i).getWallet().getName();
+            if(curDailyBill.getBillByIndex(i).getType() != null)
+                typeName = curDailyBill.getBillByIndex(i).getType().getName();
             Map<String, Object> map = new HashMap<String, Object>();
             billAmountList.add(amountString);
             walletNameList.add(walletName);
             typeNameList.add(typeName);
-            map.put("amount", amountString);
+            map.put("amount", amountString+currency.getSymbol());
             map.put("wallet", walletName);
             map.put("type", typeName);
             billItemList.add(map);
@@ -408,7 +451,7 @@ public class RecordBillFragment extends Fragment {
 
             curDailyBudget = billRecorder.queryDailyBudget(curCalendar.get(Calendar.YEAR), curCalendar.get(Calendar.MONTH)+1,
                     curCalendar.get(Calendar.DAY_OF_MONTH));
-            curDailyBudget.judgeIfOver();
+
             showBill();
             showBudget();
         }
@@ -430,6 +473,9 @@ public class RecordBillFragment extends Fragment {
             billRecorder.setBill(new Bill(curDailyBill.getBillByIndex(curPosition).getId(),
                     amount, date , curType, curWallet, AsApplication.getAccountId()));
             curDailyBill = billRecorder.queryDailyBill(date);
+
+            curDailyBudget = billRecorder.queryDailyBudget(curCalendar.get(Calendar.YEAR), curCalendar.get(Calendar.MONTH)+1,
+                    curCalendar.get(Calendar.DAY_OF_MONTH));
 
             showBill();
             showBudget();

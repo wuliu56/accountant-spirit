@@ -12,5 +12,5 @@ public interface TypeDao {
     public Type findByName(String name,String accountId);
     public Type findByTypeId(Integer typeId,String accountId);
     public ArrayList<Type> findAll(String accountId);
-    public ArrayList<Type> findByCategory(String category);
+    public ArrayList<Type> findByCategory(String category,String accountId);
 }

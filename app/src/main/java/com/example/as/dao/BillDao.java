@@ -11,8 +11,8 @@ public interface BillDao {
     public boolean insert(Bill bill);
     public boolean deleteByBillId(Integer billId);
     public boolean update(Bill bill);
-    public Bill findById(int id);
+    public Bill findById(Integer id);
     public ArrayList<Bill> findByDate(Date date, String accountId) throws ParseException;
-    public ArrayList<Bill> findByType(int typeId, String accountId);
+    public ArrayList<Bill> findByType(Integer typeId, String accountId);
     public ArrayList<Bill> findAll(String accountId);
 }
